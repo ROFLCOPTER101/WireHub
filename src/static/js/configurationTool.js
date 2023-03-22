@@ -35,13 +35,13 @@ $("#sure_delete_configuration").on("click", function () {
             $('#configuration_delete_modal button[data-dismiss="modal"]').remove();
             ele.text("Delete Successful! Redirecting in 5 seconds.");
             setTimeout(function(){
-                window.location.replace('/');
+                window.location.replace(global_prefix);
             }, 5000)
         }else{
             $("#remove_configuration_alert").removeClass("d-none").text(res.reason);
         }
     }
-    ajaxPostJSON("/api/deleteConfiguration", {"name": configurations.getConfigurationName()}, done);
+    ajaxPostJSON(global_prefix + "api/deleteConfiguration", {"name": configurations.getConfigurationName()}, done);
 });
 
 function loadPeerDataUsageChartDone(res){
@@ -84,9 +84,9 @@ $body.on("click", ".btn-data-usage-peer", function(){
     configurations.peerDataUsageChartObj().data.peerID = $(this).data("peer-id");
     configurations.peerDataUsageModal().toggle();
     peerDataUsageInterval = setInterval(function(){
-        ajaxPostJSON("/api/getPeerDataUsage", {"config": configurations.getConfigurationName(), "peerID":  configurations.peerDataUsageChartObj().data.peerID, "interval": window.localStorage.getItem("peerTimePeriod")}, loadPeerDataUsageChartDone); 
+        ajaxPostJSON(global_prefix + "api/getPeerDataUsage", {"config": configurations.getConfigurationName(), "peerID":  configurations.peerDataUsageChartObj().data.peerID, "interval": window.localStorage.getItem("peerTimePeriod")}, loadPeerDataUsageChartDone); 
     }, 30000);
-    ajaxPostJSON("/api/getPeerDataUsage", {"config": configurations.getConfigurationName(), "peerID":  configurations.peerDataUsageChartObj().data.peerID, "interval": window.localStorage.getItem("peerTimePeriod")}, loadPeerDataUsageChartDone); 
+    ajaxPostJSON(global_prefix + "api/getPeerDataUsage", {"config": configurations.getConfigurationName(), "peerID":  configurations.peerDataUsageChartObj().data.peerID, "interval": window.localStorage.getItem("peerTimePeriod")}, loadPeerDataUsageChartDone); 
 });
 
 $('#peerDataUsage').on('shown.bs.modal', function() {
@@ -105,7 +105,7 @@ $(".switchTimePeriod").on("click", function(){
     $(".switchTimePeriod").removeClass("active");
     $(this).addClass("active");
     if ($(this).data('time') !== peerTimePeriod){
-        ajaxPostJSON("/api/getPeerDataUsage", {"config": configurations.getConfigurationName(), "peerID": configurations.peerDataUsageChartObj().data.peerID, "interval": $(this).data('time')}, loadPeerDataUsageChartDone); 
+        ajaxPostJSON(global_prefix + "api/getPeerDataUsage", {"config": configurations.getConfigurationName(), "peerID": configurations.peerDataUsageChartObj().data.peerID, "interval": $(this).data('time')}, loadPeerDataUsageChartDone); 
         window.localStorage.peerTimePeriod = $(this).data('time');
     }
     
@@ -146,7 +146,7 @@ $(".toggle--switch").on("change", function(){
     let status = $(this).prop("checked");
     let ele = $(this);
     $.ajax({
-        url: `/switch/${id}`
+        url: `${global_prefix}switch/${id}`
     }).done(function(res){
         if (res.status){
             if (status){
@@ -255,7 +255,7 @@ $add_peer.addEventListener("click", function() {
             data_list.forEach((ele) => ele.attr("disabled", "disabled"));
             $.ajax({
                 method: "POST",
-                url: "/add_peer/" + conf,
+                url: global_prefix + "add_peer/" + conf,
                 headers: {
                     "Content-Type": "application/json"
                 },
@@ -484,7 +484,7 @@ $body.on("click", ".btn-setting-peer", function() {
     $("#save_peer_setting").attr("peer_id", peer_id);
     $.ajax({
         method: "POST",
-        url: "/get_peer_data/" + configurations.getConfigurationName(),
+        url: global_prefix + "/get_peer_data/" + configurations.getConfigurationName(),
         headers: {
             "Content-Type": "application/json"
         },
@@ -560,7 +560,7 @@ $("#save_peer_setting").on("click", function() {
         data_list.forEach((ele) => ele.attr("disabled", "disabled"));
         $.ajax({
             method: "POST",
-            url: "/save_peer_setting/" + conf_id,
+            url: global_prefix+"/save_peer_setting/" + conf_id,
             headers: {
                 "Content-Type": "application/json"
             },
@@ -638,7 +638,7 @@ $body.on("change", "#sort_by_dropdown", function() {
         method: "POST",
         data: JSON.stringify({ 'sort': $("#sort_by_dropdown option:selected").val() }),
         headers: { "Content-Type": "application/json" },
-        url: "/update_dashboard_sort",
+        url: global_prefix + "/update_dashboard_sort",
         success: function() {
             configurations.loadPeers($('#search_peer_textbox').val());
         }

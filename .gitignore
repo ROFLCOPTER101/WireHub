@@ -15,3 +15,5 @@ log/**
 release/*
 src/db/wgdashboard.db
 .jshintrc
+Pipfile.lock
+tmp_edit_psk.txt
