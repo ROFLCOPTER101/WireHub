@@ -1,0 +1,19 @@
+[2024-05-26 15:57:00 +0700] [21252] [INFO] Starting gunicorn 22.0.0
+[2024-05-26 15:57:00 +0700] [21252] [INFO] Listening at: http://0.0.0.0:10086 (21252)
+[2024-05-26 15:57:00 +0700] [21252] [INFO] Using worker: gthread
+[2024-05-26 15:57:00 +0700] [21253] [INFO] Booting worker with pid: 21253
+[2024-05-26 15:57:00 +0700] [21254] [INFO] Booting worker with pid: 21254
+[2024-05-26 15:57:00 +0700] [21255] [INFO] Booting worker with pid: 21255
+[2024-05-26 15:57:00 +0700] [21256] [INFO] Booting worker with pid: 21256
+[2024-05-26 15:57:00 +0700] [21257] [INFO] Booting worker with pid: 21257
+[2024-05-26 15:57:00 +0700] [21258] [INFO] Booting worker with pid: 21258
+[2024-05-26 15:57:00 +0700] [21259] [INFO] Booting worker with pid: 21259
+[2024-05-26 16:15:51 +0700] [21252] [INFO] Handling signal: term
+[2024-05-26 16:15:51 +0700] [21259] [INFO] Worker exiting (pid: 21259)
+[2024-05-26 16:15:51 +0700] [21256] [INFO] Worker exiting (pid: 21256)
+[2024-05-26 16:15:51 +0700] [21257] [INFO] Worker exiting (pid: 21257)
+[2024-05-26 16:15:51 +0700] [21255] [INFO] Worker exiting (pid: 21255)
+[2024-05-26 16:15:51 +0700] [21254] [INFO] Worker exiting (pid: 21254)
+[2024-05-26 16:15:52 +0700] [21258] [INFO] Worker exiting (pid: 21258)
+[2024-05-26 16:15:52 +0700] [21253] [INFO] Worker exiting (pid: 21253)
+[2024-05-26 16:15:52 +0700] [21252] [INFO] Shutting down: Master
