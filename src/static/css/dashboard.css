@@ -80,6 +80,7 @@ body {
     text-transform: uppercase;
 }
 
+
 /*
  * Navbar
  */
@@ -131,8 +132,8 @@ body {
 }
 
 .dot-running {
-    background-color: #8B0000!important;
-    box-shadow: 0 0 0 0.2rem #8B000045;
+    background-color: #28a745!important;
+    box-shadow: 0 0 0 0.2rem #28a74545;
 }
 
 .h6-dot-running {
@@ -144,7 +145,7 @@ body {
 }
 
 .card-running {
-    border-color: #8B0000;
+    border-color: #28a745;
 }
 
 .info h6 {
@@ -195,7 +196,7 @@ body {
 
 .btn-download-peer:active,
 .btn-download-peer:hover {
-    color: #FFFFFF !important;
+    color: #17a2b8 !important;
     transform: translateY(5px);
 }
 
@@ -214,7 +215,7 @@ body {
 }
 
 .btn-lock-peer:hover {
-    color: #8B0000;
+    color: #28a745;
 }
 
 .btn-lock-peer.lock{
@@ -234,7 +235,7 @@ body {
 } */
 
 .btn-download-peer:hover {
-    color: #8B0000;
+    color: #17a2b8;
 }
 
 .login-container {
@@ -373,6 +374,7 @@ main {
 
 @-webkit-keyframes rotating
 /* Safari and Chrome */
+
 {
     from {
         -webkit-transform: rotate(0deg);
@@ -470,11 +472,20 @@ main {
     padding: 0;
 }
 
+
+/*label[for="password"]{*/
+
+
+/*    transform: translateY(32px) translateX(16px);*/
+
+
+/*}*/
+
 .modal-content {
     border-radius: 10px;
 }
 
-tooltip-inner {
+.tooltip-inner {
     font-size: 0.8rem;
 }
 
