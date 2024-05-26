@@ -1,0 +1,12 @@
+[2024-05-26 16:32:39 +0700] [25352] [INFO] Starting gunicorn 22.0.0
+[2024-05-26 16:32:39 +0700] [25352] [ERROR] Connection in use: ('0.0.0.0', 10086)
+[2024-05-26 16:32:39 +0700] [25352] [ERROR] Retrying in 1 second.
+[2024-05-26 16:32:40 +0700] [25352] [ERROR] Connection in use: ('0.0.0.0', 10086)
+[2024-05-26 16:32:40 +0700] [25352] [ERROR] Retrying in 1 second.
+[2024-05-26 16:32:41 +0700] [25352] [ERROR] Connection in use: ('0.0.0.0', 10086)
+[2024-05-26 16:32:41 +0700] [25352] [ERROR] Retrying in 1 second.
+[2024-05-26 16:32:42 +0700] [25352] [ERROR] Connection in use: ('0.0.0.0', 10086)
+[2024-05-26 16:32:42 +0700] [25352] [ERROR] Retrying in 1 second.
+[2024-05-26 16:32:43 +0700] [25352] [ERROR] Connection in use: ('0.0.0.0', 10086)
+[2024-05-26 16:32:43 +0700] [25352] [ERROR] Retrying in 1 second.
+[2024-05-26 16:32:44 +0700] [25352] [ERROR] Can't connect to ('0.0.0.0', 10086)
