@@ -1,8 +1,3 @@
-"""
-< WGDashboard > - Copyright(C) 2021 Donald Zou [https://github.com/donaldzou]
-Under Apache-2.0 License
-"""
-
 from crypt import methods
 import sqlite3
 import configparser
@@ -243,51 +238,49 @@ def get_transfer(config_name):
     @param config_name: Configuration name
     @return: str
     """
+
     # Get transfer
     try:
         data_usage = subprocess.check_output(f"wg show {config_name} transfer",
                                              shell=True, stderr=subprocess.STDOUT)
     except subprocess.CalledProcessError:
         return "stopped"
-    data_usage = data_usage.decode("UTF-8").split("\n")
-    final = []
-    for i in data_usage:
-        final.append(i.split("\t"))
-    data_usage = final
-    for i in range(len(data_usage)):
+
+    data_usage = [line.split("\t") for line in data_usage.decode("UTF-8").strip().split("\n")]
+
+    for peer in data_usage:
+        peer_id, receive, sent = peer[0], int(peer[1]), int(peer[2])
+
         cur_i = g.cur.execute(
-            "SELECT total_receive, total_sent, cumu_receive, cumu_sent, status FROM %s WHERE id='%s'"
-            % (config_name, data_usage[i][0])).fetchall()
-        if len(cur_i) > 0:
-            total_sent = cur_i[0][1]
-            total_receive = cur_i[0][0]
-            cur_total_sent = round(int(data_usage[i][2]) / (1024 ** 3), 4)
-            cur_total_receive = round(int(data_usage[i][1]) / (1024 ** 3), 4)
-            # if cur_i[0][4] == "running":
-            cumulative_receive = cur_i[0][2] + total_receive
-            cumulative_sent = cur_i[0][3] + total_sent
-            if total_sent <= cur_total_sent and total_receive <= cur_total_receive:
-                total_sent = cur_total_sent
+            "SELECT total_receive, total_sent, cumu_receive, cumu_sent, status FROM {} WHERE id=?".format(config_name),
+            (peer_id,)
+        ).fetchone()
+
+        if cur_i:
+            total_receive, total_sent, cumu_receive, cumu_sent, status = cur_i
+            cur_total_receive = round(receive / (1024 ** 3), 4)
+            cur_total_sent = round(sent / (1024 ** 3), 4)
+
+            # Update cumulative values
+            cumulative_receive = cumu_receive + total_receive
+            cumulative_sent = cumu_sent + total_sent
+
+            if total_receive <= cur_total_receive and total_sent <= cur_total_sent:
                 total_receive = cur_total_receive
+                total_sent = cur_total_sent
             else:
-                # cumulative_receive = cur_i[0][2] + total_receive
-                # cumulative_sent = cur_i[0][3] + total_sent
-                g.cur.execute("UPDATE %s SET cumu_receive = %f, cumu_sent = %f, cumu_data = %f WHERE id = '%s'" %
-                                (config_name, round(cumulative_receive, 4), round(cumulative_sent, 4),
-                                round(cumulative_sent + cumulative_receive, 4), data_usage[i][0]))
-                total_sent = 0
+                g.cur.execute("UPDATE {} SET cumu_receive=?, cumu_sent=?, cumu_data=? WHERE id=?".format(config_name),
+                              (round(cumulative_receive, 4), round(cumulative_sent, 4),
+                               round(cumulative_receive + cumulative_sent, 4), peer_id))
                 total_receive = 0
-            g.cur.execute("UPDATE %s SET total_receive = %f, total_sent = %f, total_data = %f WHERE id = '%s'" %
-                            (config_name, round(total_receive, 4), round(total_sent, 4),
-                            round(total_receive + total_sent, 4), data_usage[i][0]))
-            # now = datetime.now()
-            # now_string = now.strftime("%d/%m/%Y %H:%M:%S")
-            # g.cur.execute(f'''
-            # INSERT INTO {config_name}_transfer (id, total_receive, total_sent, total_data, cumu_receive, cumu_sent, cumu_data, time) 
-            # VALUES ('{data_usage[i][0]}', {round(total_receive, 4)}, {round(total_sent, 4)}, {round(total_receive + total_sent, 4)},{round(cumulative_receive, 4)}, {round(cumulative_sent, 4)},
-            #                     {round(cumulative_sent + cumulative_receive, 4)}, '{now_string}')
-            # ''')
-            
+                total_sent = 0
+
+            g.cur.execute("UPDATE {} SET total_receive=?, total_sent=?, total_data=? WHERE id=?".format(config_name),
+                          (round(total_receive, 4), round(total_sent, 4), round(total_receive + total_sent, 4), peer_id))
+
+    return "success"
+
+
 
 
 
