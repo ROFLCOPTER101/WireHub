@@ -1,21 +1,27 @@
+/* Общие стили для текста */
 body {
-    font-size: .875rem;
-    /*font-family: 'Poppins', sans-serif;*/
+    font-size: .875rem; /* Размер шрифта */
+    font-family: 'Roboto', 'Helvetica', sans-serif; /* Шрифт */
 }
 
+/* Стили для блока кода */
 .codeFont{
-    font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-family: 'Fira Code', monospace;
 }
 
+/* Стили для иконок */
 .feather {
-    width: 16px;
-    height: 16px;
-    vertical-align: text-bottom;
+    width: 16px; /* Ширина иконки */
+    height: 16px; /* Высота иконки */
+    vertical-align: text-bottom; /* Выравнивание по вертикали */
 }
 
+/* Стили для кнопок с классом .btn-primary */
 .btn-primary {
-    font-weight: bold;
+    font-weight: bold; /* Жирный шрифт */
+    /* Другие стили */
 }
+
 
 /*
  * Sidebar
@@ -89,7 +95,7 @@ body {
     padding-top: .75rem;
     padding-bottom: .75rem;
     font-size: 1rem;
-    background-color: rgba(0, 0, 0, .25);
+    background-color: rgb(99, 10, 10);
     box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25);
 }
 
@@ -933,43 +939,3 @@ pre.index-alert {
     width: 100%;
 }
 
-/* Основные цвета */
-:root {
-    --primary-color: #7f141f; /* Бордовый цвет */
-    --secondary-color: #666666; /* Серый цвет */
-    --bg-color: #ffffff; /* Белый цвет */
-}
-
-/* Изменения для всех элементов */
-body {
-    font-size: .875rem;
-    /* Другие стили */
-}
-
-/* Навигационная панель */
-.navbar {
-    background-color: var(--primary-color); /* Фоновый цвет бордового */
-    /* Другие стили */
-}
-
-.nav-link {
-    color: var(--bg-color); /* Белый цвет текста */
-    /* Другие стили */
-}
-
-/* Кнопки */
-.btn {
-    background-color: var(--secondary-color); /* Серый цвет фона кнопок */
-    color: var(--bg-color); /* Белый цвет текста на кнопках */
-    border-radius: 20px; /* Более скругленные углы */
-    /* Другие стили */
-}
-
-/* Карточки */
-.card {
-    background-color: var(--bg-color); /* Белый цвет фона карточек */
-    border-radius: 20px; /* Более скругленные углы */
-    /* Другие стили */
-}
-
-/* И так далее для других элементов в интерфейсе */
