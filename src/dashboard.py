@@ -757,6 +757,10 @@ def auth():
     data = request.get_json()
     config = get_dashboard_conf()
     password = hashlib.sha256(data['password'].encode())
+    #session['username'] = data['username']
+    #session.permanent = True
+    #config.clear()
+    #return jsonify({"status": True, "msg": ""})
     if password.hexdigest() == config["Account"]["password"] \
             and data['username'] == config["Account"]["username"]:
         session['username'] = data['username']
@@ -765,7 +769,7 @@ def auth():
         return jsonify({"status": True, "msg": ""})
     config.clear()
     return jsonify({"status": False, "msg": "Username or Password is incorrect."})
-
+    
 
 """
 Index Page

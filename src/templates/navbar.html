@@ -1,12 +1,65 @@
 <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-	<a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="/">WGDashboard</a>
-	<!-- <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse"
-		data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-		<span class="navbar-toggler-icon"></span>
-	</button> -->
-	
+    <div class="d-flex flex-row justify-content-between align-items-center w-100">
+        <div class="d-flex align-items-center">
+            <a class="navbar-brand mr-3" href="/">WireHub</a>
+			<a class="nav-link text-light ml-auto" href="/">Главная</a>
+            {% if "username" in session %}
+            <a class="nav-link text-light mr-3" href="/settings">Настройки</a>
+            {% endif %}
+        </div>
+        <div class="d-flex align-items-center">
+			<a class="text-light mr-3" style="text-decoration: none;" data-toggle="modal" data-target="#accountModal">{{ session['username'] }}</a>
+			<a class="nav-link text-light" href="/signout">
+				<i class="bi bi-box-arrow-right" style="transform: scaleY(2); color: rgb(255, 255, 255);"></i> 
+			</a>			
+        </div>
+    </div>
 </nav>
 <div class="progress" style="height: 3px; position: fixed; width: 100%; z-index: 10000; background-color: transparent">
-	<div class="progress-bar" role="progressbar" style="z-index: 10000; width: 0%"></div>
+    <div class="progress-bar" role="progressbar" style="z-index: 10000; width: 0%"></div>
 </div>
+
+
+<!-- Модальное окно -->
+<div class="modal fade" id="accountModal" tabindex="-1" role="dialog" aria-labelledby="accountModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="accountModalLabel">Account Settings</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Форма обновления имени пользователя -->
+                <form action="/update_acct" method="post">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" class="form-control mb-4" id="username" name="username" value="{{ session['username'] }}" required>
+                        <button type="submit" class="btn btn-danger">Update Account</button>
+                    </div>
+                </form>
+
+                <!-- Форма обновления пароля -->
+                <div class="card mb-3">
+                    <h6 class="card-header">Security</h6>
+                    <div class="card-body">
+                        <form id="passwordForm" action="/update_pwd" method="post">
+                            <div class="form-group">
+                                <label for="currentpass">Current Password</label>
+                                <input type="password" class="form-control mb-2" id="currentpass" name="currentpass">
+                                <label for="newpass">New Password</label>
+                                <input type="password" class="form-control mb-2" id="newpass" name="newpass">
+                                <label for="repnewpass">Repeat New Password</label>
+                                <input type="password" class="form-control mb-4" id="repnewpass" name="repnewpass">
+                                <button type="submit" class="btn btn-danger">Update Password</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
