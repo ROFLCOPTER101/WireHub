@@ -35,26 +35,3 @@ $(".change_path").click(function () {
 $(".bottomNavSettings").addClass("active");
 
 
-$(".theme-switch-btn").on("click", function(){
-    if (!$(this).hasClass("active")){
-        let theme = $(this).data("theme");
-        $(".theme-switch-btn").removeClass("active");
-        $(this).addClass("active");
-        $.ajax({
-            method: "POST",
-            url: "/api/settings/setTheme",
-            headers: {"Content-Type": "application/json"},
-            data: JSON.stringify({"theme": theme})
-        }).done(function(res){
-            if (res.status == true){
-                if (theme == "light"){
-                    $("#darkThemeCSS").remove();
-                    showToast("Switched to light theme");
-                }else{
-                    $("head").append('<link rel="stylesheet" type="text/css" href="/static/css/theme/dark.min.css" id="darkThemeCSS">');
-                    showToast("Switched to dark theme");
-                }
-            }
-        });
-    }
-});

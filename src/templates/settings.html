@@ -16,26 +16,6 @@
             {% endif %}
             <h1 class="">Settings</h1>
             <hr>
-            <div class="card mb-3">
-                <h6 class="card-header">Dashboard Theme</h6>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-6">
-                            <button class='btn btn-outline-primary theme-switch-btn {% if session["theme"] == "light" %} {{ "active" }} {% endif %}' data-theme="light">
-                                <i class="bi bi-sun-fill"></i>
-                                Light
-                            </button>
-                        </div>
-                        <div class="col-6">
-                            <button class='btn btn-outline-primary theme-switch-btn {% if session["theme"] == "dark" %} {{ "active" }} {% endif %}' data-theme="dark">
-                                <i class="bi bi-moon-fill"></i>
-                                Dark
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <hr>
             {% if required_auth == "true" %}
                 <div class="card mb-3">
                     <h6 class="card-header">Peer Default Settings</h6>

@@ -65,7 +65,7 @@ class managePeer:
         if data['interval'] != "all":
             t = interval[data['interval']].strftime("%d/%m/%Y %H:%M:%S")
             intv = f" AND time >= '{t}'"
-        timeData = cur.execute(f"SELECT total_receive, total_sent, time FROM wg0_transfer WHERE id='{data['peerID']}' {intv} ORDER BY time DESC;")
+        timeData = cur.execute(f"SELECT total_receive, total_sent, time FROM {data['config']}_transfer WHERE id='{data['peerID']}' {intv} ORDER BY time DESC;")
         chartData = []
         for i in timeData:
             chartData.append({
@@ -232,13 +232,3 @@ class manageConfiguration:
             return pc
 
         
-
-
-class settings:
-    def setTheme(self, theme, config, setConfig):
-        themes = ['light', 'dark']
-        if theme not in themes: 
-            return ret(status=False, reason="Theme does not exist")
-        config['Server']['dashboard_theme'] = theme
-        setConfig(config)
-        return ret()

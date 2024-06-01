@@ -65,28 +65,27 @@ let peers = [];
         data: {
             labels: [],
             datasets: [{
-                label: 'Data Sent',
+                label: '⬆ Upload',
                 data: [],
                 stroke: '#FFFFFF',
-                borderColor: '#28a745',
-                backgroundColor: '#28a7452b',
+                borderColor: '#800000', // Бордовый для отправленных данных
+                backgroundColor: 'rgba(128, 0, 0, 0.2)', // Полупрозрачный бордовый
                 pointRadius: 1,
                 fill: {target: 'origin'},
-                tension: 0,
+                tension: 0.4, // Сделать линии более гладкими
                 borderWidth: 1
             },
             {
-                label: 'Data Received',
+                label: '⬇ Download',
                 data: [],
                 stroke: '#FFFFFF',
-                borderColor: '#007bff',
-                backgroundColor: '#007bff2b',
+                borderColor: '#C0C0C0', // Светло-серый для полученных данных
+                backgroundColor: 'rgba(192, 192, 192, 0.2)', // Полупрозрачный светло-серый
                 pointRadius: 1,
                 fill: {target: 'origin'},
-                tension: 0,
+                tension: 0.4, // Сделать линии более гладкими
                 borderWidth: 1
-            }
-            ]
+            }]
         },
         options: {
             maintainAspectRatio: false,
@@ -114,6 +113,8 @@ let peers = [];
             }
         }
     });
+    
+
 
     let $totalDataUsageChartObj = $("#totalDataUsageChartObj");
     $totalDataUsageChartObj.css("width", "100%");
@@ -305,7 +306,7 @@ let peers = [];
             if (loadPeers($('#search_peer_textbox').val())) {
                 setActiveConfigurationName();
                 window.history.pushState(null, null, `/configuration/${configuration_name}`);
-                $("title").text(`${configuration_name} | WGDashboard`);
+                $("title").text(`${configuration_name} | WireHub`);
                 $(".index-alert").addClass("d-none").text(``);
                 totalDataUsageChartObj.data.labels = [];
                 totalDataUsageChartObj.data.datasets[0].data = [];

@@ -1,7 +1,8 @@
 /* Общие стили для текста */
 body {
     font-size: .875rem; /* Размер шрифта */
-    font-family: 'Roboto', 'Helvetica', sans-serif; /* Шрифт */
+    font-family: 'Accord', 'Helvetica', sans-serif; /* Шрифт */
+    background-color: #f7f7f7;
 }
 
 /* Стили для блока кода */
@@ -22,6 +23,13 @@ body {
     /* Другие стили */
 }
 
+a {
+    color: rgb(150, 16, 11);
+  }
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Open Sans', sans-serif; /* Шрифт для заголовков */
+}
 
 /*
  * Sidebar
@@ -29,14 +37,19 @@ body {
 
 .sidebar {
     position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
     z-index: 100;
     /* Behind the navbar */
     padding: 48px 0 0;
     /* Height of navbar */
     box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+    background-color: rgb(255, 255, 255);
+    border-width: 2cqw;
+    width: fit-content;
+    border-radius: 15px; /* Задаём радиус скругления границ */
+    padding: 3px 5px; /* Задаём внутренний отступ */
+    margin-top: 7px; /* Задаём отступ от верхней части страницы */
+    margin-bottom: 7px;
+    margin-left: 5px;
 }
 
 .sidebar-sticky {
@@ -56,15 +69,67 @@ body {
     }
 }
 
+#main-links-container {
+    background-color: rgb(255, 255, 255);
+    border-width: 2cqw;
+    width: fit-content;
+    border-radius: 15px; /* Задаём радиус скругления границ */
+    padding: 3px 5px; /* Задаём внутренний отступ */
+    margin-top: 7px; /* Задаём отступ от верхней части страницы */
+    margin-bottom: 7px;
+    margin-left: 5px;
+    display: inline-block;
+}
+
+#account-container { 
+    background-color: rgb(255, 255, 255);
+    border-width: 2cqw;
+    width: fit-content;
+    border-radius: 15px; /* Задаём радиус скругления границ */
+    padding: 3px 5px; /* Задаём внутренний отступ */
+    margin-top: 7px; /* Задаём отступ от верхней части страницы */
+    margin-bottom: 7px;
+    margin-left: 5px;
+    display: inline-block;
+}
+
+#logout-container{
+    border-radius: 15px;
+    background-color: rgb(150, 16, 11);
+    margin-left: 3px;
+    margin-right: 6px;
+    padding: 4px 4px;
+}
+
+a.account-container {
+    color: rgb(150, 16, 11);
+    border-radius: 15px;
+    display: block;
+    padding: .5rem 1rem; 
+}
+  
+.nav-link{
+    border-radius: 15px;
+    display: block;
+    padding: .5rem 1rem;
+}
+
 .sidebar .nav-link, .bottomNavContainer .nav-link{
     font-weight: 500;
-    color: #333;
+    color: #000000;
     transition: 0.2s cubic-bezier(0.82, -0.07, 0, 1.01);
 }
 
 .nav-link:hover {
-    padding-left: 30px;
-    background-color: #dfdfdf;
+    background-color: rgb(150, 16, 11);
+}
+
+a.nav-link{
+    color: rgb(150, 16, 11);
+}
+
+a.nav-link:hover {
+    color: rgb(255, 255, 255); 
 }
 
 .sidebar .nav-link .feather {
@@ -73,7 +138,7 @@ body {
 }
 
 .sidebar .nav-link.active, .bottomNavContainer .nav-link.active {
-    color: #007bff;
+    color: rgb(150, 16, 11);
 }
 
 .sidebar .nav-link:hover .feather,
@@ -92,10 +157,16 @@ body {
  */
 
 .navbar-brand {
-    padding-top: .75rem;
-    padding-bottom: .75rem;
+    width: 300px;
+    border-radius: 15px; /* Задаём радиус скругления границ */
+    padding: 10px 20px; /* Задаём внутренний отступ */
+    margin-top: 7px; /* Задаём отступ от верхней части страницы */
+    margin-bottom: 7px;
+    margin-left: 10px;
+    margin-left: 10px;
+    display: inline-block; /* Делаем элемент блочным, чтобы применить отступ сверху и снизу */
     font-size: 1rem;
-    background-color: rgb(99, 10, 10);
+    background-color: rgb(150, 16, 11);
     box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25);
 }
 
@@ -138,8 +209,7 @@ body {
 }
 
 .dot-running {
-    background-color: #28a745!important;
-    box-shadow: 0 0 0 0.2rem #28a74545;
+    background-color: rgb(150, 16, 11)!important;
 }
 
 .h6-dot-running {
@@ -151,7 +221,8 @@ body {
 }
 
 .card-running {
-    border-color: #28a745;
+    border: 2px solid;
+    border-color: #7e0202;
 }
 
 .info h6 {
@@ -233,7 +304,7 @@ body {
 }
 
 .btn-control.btn-outline-primary:hover{
-    color: #007bff
+    color: #ff0000
 }
 
 /* .btn-setting-peer:hover {
@@ -263,8 +334,8 @@ body {
 }
 
 .btn-group-label:hover {
-    color: #007bff;
-    border-color: #007bff;
+    color: rgb(150, 16, 11);
+    border-color: rgb(206, 51, 46);
     background: white;
 }
 
@@ -293,7 +364,22 @@ body {
 }
 
 main {
-    margin-bottom: 3rem;
+    background-color: rgb(255, 255, 255);
+    border-width: 2cqw;
+    border-radius: 20px; /* Задаём радиус скругления границ */
+    padding: 10px 10px; /* Задаём внутренний отступ */
+    margin-top: 15px; /* Задаём отступ от верхней части страницы */
+    margin-bottom: 7px;
+    margin-left: 316px;
+    height: 85%;
+    max-width: 73%;
+}
+
+.scrollable-container {
+    padding: 10px; /* Внутренний отступ */
+    box-sizing: border-box; /* Включает padding и border в ширину и высоту */
+    overflow-y: auto; /* Включает вертикальную прокрутку */
+    background-color: #fff; /* Фон контейнера */
 }
 
 .peer_list {
@@ -311,7 +397,6 @@ main {
 
 .btn-manage-group {
     z-index: 99;
-    position: fixed;
     bottom: 3rem;
     right: 2rem;
     display: flex;
@@ -362,11 +447,35 @@ main {
 .add_btn {
     height: 54px;
     z-index: 99;
-    border-radius: 100px !important;
+    border-radius: 20px !important;
+    border-color: rgb(150, 16, 11);
     padding: 0 14px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
     margin-right: 1rem;
     font-size: 1.5rem;
+    background-color: rgb(150, 16, 11); /* Изменяет цвет фона кнопки на красный */
+}
+
+.add_btn:hover{
+    background-color: rgb(109, 11, 8);
+    border-color: rgb(109, 11, 8);
+}
+
+.add_btn:active {
+    background-color: rgb(89, 8, 6); /* Цвет при нажатии */
+    border-color: rgb(89, 8, 6); /* Цвет границы при нажатии */
+}
+
+.add_btn:focus {
+    background-color: rgb(89, 8, 6); /* Цвет при нажатии */
+    border-color: rgb(109, 11, 8);
+    box-shadow: 0 0 0 3px rgba(223, 217, 217, 0.63);
+}
+
+.button:focus-visible {
+    background-color: rgb(89, 8, 6); /* Цвет при нажатии */
+    border-color: rgb(109, 11, 8);
+    box-shadow: 0 0 0 3px rgba(223, 217, 217, 0.63);
 }
 
 .setting_btn {
@@ -374,6 +483,19 @@ main {
     z-index: 99;
     border-radius: 100px !important;
     padding: 0 14px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+    font-size: 1.5rem;
+}
+
+.delete_btn {
+    background-color: rgb(207, 207, 207);
+    border-color: rgb(207, 207, 207);
+    height: 40px;
+    width: 40px;
+    padding: 0 0;
+    border-radius: 15px !important;
+    margin-left: 10px;
+    z-index: 99;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
     font-size: 1.5rem;
 }
@@ -448,7 +570,8 @@ main {
 }
 
 .card {
-    border-radius: 10px;
+    border-radius: 20px;
+    margin: 3px 16px;
 }
 
 .peer_list .card .button-group {
@@ -478,14 +601,6 @@ main {
     padding: 0;
 }
 
-
-/*label[for="password"]{*/
-
-
-/*    transform: translateY(32px) translateX(16px);*/
-
-
-/*}*/
 
 .modal-content {
     border-radius: 10px;
@@ -524,7 +639,8 @@ main {
 }
 
 .conf_card:hover {
-    border-color: #007bff;
+    border: 2px solid; /* Граница при наведении */
+    border-color: rgb(150,26,26);
     cursor: pointer;
 }
 
@@ -731,12 +847,12 @@ pre.index-alert {
 
 
 .toggle--switch:checked + .toggleLabel{
-    background-color: #007bff17 !important;
-    border: 2px solid #007bff8c;
+    background-color: rgb(255, 255, 255) !important;
+    border: 2px solid rgb(150,26,26); 
 }
 
 .toggle--switch:checked + .toggleLabel::before{
-    background-color: #007bff;
+    background-color: rgb(150,26,26);
     animation-name: on;
     animation-duration: 350ms;
     animation-fill-mode: forwards;
@@ -787,7 +903,7 @@ pre.index-alert {
 .toast-progressbar{
     width: 100%;
     height: 4px;
-    background-color: #007bff;
+    background-color: rgb(150,26,26);
     border-bottom-left-radius: .25rem;
 }
 

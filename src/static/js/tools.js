@@ -70,7 +70,7 @@ function showToast(msg, isDanger = false) {
     $(".toastContainer").append(
         `<div id="${numberToast}-toast" class="toast hide animate__animated animate__fadeInUp" role="alert" data-delay="5000">
             <div class="toast-header">
-                <strong class="mr-auto">WGDashboard</strong>
+                <strong class="mr-auto">WireHub</strong>
                 <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

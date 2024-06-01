@@ -6,6 +6,7 @@ $("#configuration_delete").on("click", function(){
     configurations.configurationDeleteModal().toggle();
 });
 
+
 function ajaxPostJSON(url, data, doneFunc){
     $.ajax({
         url: url,
@@ -164,6 +165,7 @@ $saveConfiguration.on("click", function(){
 document.querySelector(".add_btn").addEventListener("click", () => {
     configurations.addModal().toggle();
 });
+
 
 /**
  * When configuration switch got click

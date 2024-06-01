@@ -79,7 +79,12 @@ $("#reGeneratePrivateKey").on("click", function() {
 $("#toggleAddConfiguration").on("click", function(){
     addConfigurationModal.modal('toggle');
     genKeyPair()
-}); 
+});
+
+$("#toggleDeleteConfiguration").on("click", function(){
+    configurations.configurationDeleteModal().toggle();
+});
+
 
 $("#addConfigurationPrivateKey").on("change", function() {
     $privateKey = $(this);

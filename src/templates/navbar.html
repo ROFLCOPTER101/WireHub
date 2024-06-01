@@ -1,22 +1,32 @@
-<nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-    <div class="d-flex flex-row justify-content-between align-items-center w-100">
-        <div class="d-flex align-items-center">
-            <a class="navbar-brand mr-3" href="/">WireHub</a>
-			<a class="nav-link text-light ml-auto" href="/">Главная</a>
-            {% if "username" in session %}
-            <a class="nav-link text-light mr-3" href="/settings">Настройки</a>
-            {% endif %}
-        </div>
-        <div class="d-flex align-items-center">
-			<a class="text-light mr-3" style="text-decoration: none;" data-toggle="modal" data-target="#accountModal">{{ session['username'] }}</a>
-			<a class="nav-link text-light" href="/signout">
-				<i class="bi bi-box-arrow-right" style="transform: scaleY(2); color: rgb(255, 255, 255);"></i> 
-			</a>			
-        </div>
-    </div>
-</nav>
 <div class="progress" style="height: 3px; position: fixed; width: 100%; z-index: 10000; background-color: transparent">
     <div class="progress-bar" role="progressbar" style="z-index: 10000; width: 0%"></div>
 </div>
+<nav class="navbar navbar-dark sticky-top flex-md-nowrap p-0">
+    <div class="d-flex flex-row justify-content-between align-items-center w-100">
+        <!-- Первый контейнер для navbar-brand -->
+        <div class="d-flex align-items-center">
+            <a class="navbar-brand mr-3 shadow" href="/">WireHub</a>
+        </div>
+        
+        <!-- Второй контейнер для главной и настроек -->
+        {% if "username" in session %}
+        <div id="main-links-container" class="d-flex justify-content-start align-items-center shadow mr-auto">
+            <a class="nav-link" href="/">Конфигурации</a>
+            <a class="nav-link mr-3" href="/settings" style="margin-right: 0px;">Настройки</a>
+            
+        </div>
+        <div id="account-container" class="d-flex align-items-center shadow">
+            <a class="nav-link" data-toggle="modal" data-target="#accountModal">{{ session['username'] }}</a>
+            <i class="fas fa-user ml-2 mr-2"></i>
+        </div>
+        <div id="logout-container" class="d-flex align-items-center">
+            <a class="nav-link text-light" href="/signout">
+                <i class="default-icon bi bi-box-arrow-right" style="transform: scaleY(2); color: rgb(255, 255, 255);"></i>
+            </a>			
+        </div>
+        {% endif %}
+    </div>
+</nav>
+
 
 

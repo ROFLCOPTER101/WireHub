@@ -26,7 +26,7 @@ from util import *
 import threading
 
 # Dashboard Version
-DASHBOARD_VERSION = 'v3.1'
+
 
 # WireGuard's configuration path
 WG_CONF_PATH = None
@@ -36,13 +36,13 @@ configuration_path = os.getenv('CONFIGURATION_PATH', '.')
 DB_PATH = os.path.join(configuration_path, 'db')
 if not os.path.isdir(DB_PATH):
     os.mkdir(DB_PATH)
-DASHBOARD_CONF = os.path.join(configuration_path, 'wg-dashboard.ini')
+DASHBOARD_CONF = os.path.join(configuration_path, 'wirehub.ini')
 
 # Upgrade Required
 UPDATE = None
 
 # Flask App Configuration
-app = Flask("WGDashboard")
+app = Flask("WireHub")
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 5206928
 app.secret_key = secrets.token_urlsafe(16)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
@@ -59,7 +59,7 @@ def connect_db():
     Connect to the database
     @return: sqlite3.Connection
     """
-    return sqlite3.connect(os.path.join(configuration_path, 'db', 'wgdashboard.db'))
+    return sqlite3.connect(os.path.join(configuration_path, 'db', 'wirehub.db'))
 
 
 def get_dashboard_conf():
@@ -97,7 +97,7 @@ def get_conf_peer_key(config_name):
         peers_keys = peers_keys.decode("UTF-8").split()
         return peers_keys
     except subprocess.CalledProcessError:
-        return config_name + " is not running."
+        return config_name + " отключён."
 
 
 def get_conf_running_peer_number(config_name):
@@ -365,7 +365,7 @@ def get_all_peers_data(config_name):
                 """
                 g.cur.execute(sql, new_data)
         else:
-            print("Trying to parse a peer doesn't have public key...")
+            print("Попытка парсинга пира, у которого нет публичного ключа...")
             failed_index.append(i)
     for i in failed_index:
         conf_peer_data['Peers'].pop(i)
@@ -566,7 +566,7 @@ def gen_public_key(private_key):
         return {"status": 'success', "msg": "", "data": public_key}
     except subprocess.CalledProcessError:
         os.remove('private_key.txt')
-        return {"status": 'failed', "msg": "Key is not the correct length or format", "data": ""}
+        return {"status": 'failed', "msg": "Ключ не совпадает по длине или формату", "data": ""}
 
 
 def f_check_key_match(private_key, public_key, config_name):
@@ -589,7 +589,7 @@ def f_check_key_match(private_key, public_key, config_name):
         sql = "SELECT * FROM " + config_name + " WHERE id = ?"
         match = g.cur.execute(sql, (result['data'],)).fetchall()
         if len(match) != 1 or result['data'] != public_key:
-            return {'status': 'failed', 'msg': 'Please check your private key, it does not match with the public key.'}
+            return {'status': 'failed', 'msg': 'Проверьте закрытый ключ, он не совпадает с публичным.'}
         else:
             return {'status': 'success'}
 
@@ -604,13 +604,13 @@ def check_repeat_allowed_ip(public_key, ip, config_name):
     """
     peer = g.cur.execute("SELECT COUNT(*) FROM " + config_name + " WHERE id = ?", (public_key,)).fetchone()
     if peer[0] != 1:
-        return {'status': 'failed', 'msg': 'Peer does not exist'}
+        return {'status': 'failed', 'msg': 'Пользователь не существует'}
     else:
         existed_ip = g.cur.execute("SELECT COUNT(*) FROM " +
                                    config_name + " WHERE id != ? AND allowed_ip LIKE '" + ip + "/%'", (public_key,)) \
             .fetchone()
         if existed_ip[0] != 0:
-            return {'status': 'failed', 'msg': "Allowed IP already taken by another peer."}
+            return {'status': 'failed', 'msg': "Этот IP-адрес уже занят."}
         else:
             return {'status': 'success'}
 
@@ -687,10 +687,8 @@ def auth_req():
         g.cur = g.db.cursor()
     conf = get_dashboard_conf()
     req = conf.get("Server", "auth_req")
-    session['theme'] = conf.get("Server", "dashboard_theme")
     session['update'] = UPDATE
     session['updateInfo'] = updateInfo
-    session['dashboard_version'] = DASHBOARD_VERSION
     if req == "true":
         if '/static/' not in request.path and \
                 request.endpoint != "signin" and \
@@ -699,7 +697,7 @@ def auth_req():
                 "username" not in session:
             print("User not signed in - Attempted access: " + str(request.endpoint))
             if request.endpoint != "index":
-                session['message'] = "You need to sign in first!"
+                session['message'] = "Необходима авторизация"
             else:
                 session['message'] = ""
             conf.clear()
@@ -733,7 +731,7 @@ def signin():
     if "message" in session:
         message = session['message']
         session.pop("message")
-    return render_template('signin.html', message=message, version=DASHBOARD_VERSION)
+    return render_template('signin.html', message=message)
 
 
 # Sign Out
@@ -768,7 +766,7 @@ def auth():
         config.clear()
         return jsonify({"status": True, "msg": ""})
     config.clear()
-    return jsonify({"status": False, "msg": "Username or Password is incorrect."})
+    return jsonify({"status": False, "msg": "Неправильный пароль или имя пользователя."})
     
 
 """
@@ -824,7 +822,7 @@ def update_acct():
     """
 
     if len(request.form['username']) == 0:
-        session['message'] = "Username cannot be empty."
+        session['message'] = "Имя не может быть пустым."
         session['message_status'] = "danger"
         return redirect(url_for("settings"))
     config = get_dashboard_conf()
@@ -832,12 +830,12 @@ def update_acct():
     try:
         set_dashboard_conf(config)
         config.clear()
-        session['message'] = "Username update successfully!"
+        session['message'] = "Имя успешно обновлено!"
         session['message_status'] = "success"
         session['username'] = request.form['username']
         return redirect(url_for("settings"))
     except Exception:
-        session['message'] = "Username update failed."
+        session['message'] = "Имя не обновлено."
         session['message_status'] = "danger"
         config.clear()
         return redirect(url_for("settings"))
@@ -855,14 +853,14 @@ def update_peer_default_config():
     if len(request.form['peer_endpoint_allowed_ip']) == 0 or \
             len(request.form['peer_global_DNS']) == 0 or \
             len(request.form['peer_remote_endpoint']) == 0:
-        session['message'] = "Please fill in all required boxes."
+        session['message'] = "Нужно заполнить все обязательные поля."
         session['message_status'] = "danger"
         config.clear()
         return redirect(url_for("settings"))
     # Check DNS Format
     dns_addresses = request.form['peer_global_DNS']
     if not check_DNS(dns_addresses):
-        session['message'] = "Peer DNS Format Incorrect."
+        session['message'] = "Некорректный формат DNS."
         session['message_status'] = "danger"
         config.clear()
         return redirect(url_for("settings"))
@@ -871,20 +869,20 @@ def update_peer_default_config():
     # Check Endpoint Allowed IPs
     ip = request.form['peer_endpoint_allowed_ip']
     if not check_Allowed_IPs(ip):
-        session['message'] = "Peer Endpoint Allowed IPs Format Incorrect. " \
-                             "Example: 192.168.1.1/32 or 192.168.1.1/32,192.168.1.2/32"
+        session['message'] = "Некорректнй форма разрешённых эндпоинтов. " \
+                             "Пример: 192.128.1.1/32 или 192.128.1.1/32,192.128.1.2/32 "
         session['message_status'] = "danger"
         config.clear()
         return redirect(url_for("settings"))
     # Check MTU Format
     if not len(request.form['peer_mtu']) > 0 or not request.form['peer_mtu'].isdigit():
-        session['message'] = "MTU format is incorrect."
+        session['message'] = "Некорректный формат MTU."
         session['message_status'] = "danger"
         config.clear()
         return redirect(url_for("settings"))
     # Check keepalive Format
     if not len(request.form['peer_keep_alive']) > 0 or not request.form['peer_keep_alive'].isdigit():
-        session['message'] = "Persistent keepalive format is incorrect."
+        session['message'] = "Некорректный формат Persistent keepalive."
         session['message_status'] = "danger"
         config.clear()
         return redirect(url_for("settings"))
@@ -1925,8 +1923,6 @@ def init_dashboard():
         config['Server']['app_port'] = '10086'
     if 'auth_req' not in config['Server']:
         config['Server']['auth_req'] = 'true'
-    if 'version' not in config['Server'] or config['Server']['version'] != DASHBOARD_VERSION:
-        config['Server']['version'] = DASHBOARD_VERSION
     if 'dashboard_refresh_interval' not in config['Server']:
         config['Server']['dashboard_refresh_interval'] = '60000'
     if 'dashboard_sort' not in config['Server']:
@@ -1952,33 +1948,6 @@ def init_dashboard():
     config.clear()
 
 
-def check_update():
-    """
-    Dashboard check update
-
-    @return: Retunt text with result
-    @rtype: str
-    """
-    config = get_dashboard_conf()
-    try:
-        data = urllib.request.urlopen("https://api.github.com/repos/donaldzou/WGDashboard/releases").read()
-        output = json.loads(data)
-        release = []
-        for i in output:
-            if not i["prerelease"]:
-                release.append(i)
-                global updateInfo
-                updateInfo = i
-                break
-        if config.get("Server", "version") == release[0]["tag_name"]:
-            result = "false"
-        else:
-            result = "true"
-        return result
-    except urllib.error.HTTPError:
-        return "false"
-
-
 """
 Configure DashBoard before start web-server
 """
@@ -1986,10 +1955,8 @@ Configure DashBoard before start web-server
 
 def run_dashboard():
     init_dashboard()
-    global UPDATE
-    UPDATE = check_update()
     config = configparser.ConfigParser(strict=False)
-    config.read('wg-dashboard.ini')
+    config.read('wirehub.ini')
     # global app_ip
     app_ip = config.get("Server", "app_ip")
     # global app_port
@@ -2008,7 +1975,7 @@ Get host and port for web-server
 def get_host_bind():
     init_dashboard()
     config = configparser.ConfigParser(strict=False)
-    config.read('wg-dashboard.ini')
+    config.read('wirehub.ini')
     app_ip = config.get("Server", "app_ip")
     app_port = config.get("Server", "app_port")
     return app_ip, app_port
@@ -2016,7 +1983,7 @@ def get_host_bind():
 if __name__ == "__main__":
     init_dashboard()
     config = configparser.ConfigParser(strict=False)
-    config.read('wg-dashboard.ini')
+    config.read('wirehub.ini')
     # global app_ip
     app_ip = config.get("Server", "app_ip")
     # global app_port
