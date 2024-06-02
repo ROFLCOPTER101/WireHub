@@ -26,35 +26,35 @@
 			</div>
 			<div class="w-100"></div>
 			<div class="col">
-				<small class="text-muted"><strong>STATUS</strong></small>
+				<small class="text-muted"><strong>СТАТУС</strong></small>
 				<h6 style="text-transform: uppercase;">{{conf_data['status']}}<span class="dot dot-{{conf_data['status']}}"></span></h6>
 			</div>
 			<div class="col">
-				<small class="text-muted"><strong>CONNECTED PEERS</strong></small>
+				<small class="text-muted"><strong>ПОДКЛЮЧЁННЫЕ ПОЛЬЗОВАТЕЛИ</strong></small>
 				<h6 style="text-transform: uppercase;">{{conf_data['running_peer']}}</h6>
 			</div>
 			<div class="col-sm">
-				<small class="text-muted"><strong>TOTAL DATA USAGE</strong></small>
+				<small class="text-muted"><strong>ОБЩЕЕ ИСПОЛЬЗОВАНИЕ ДАННЫХ</strong></small>
 				<h6 style="text-transform: uppercase;">{{conf_data['total_data_usage'][0]}} GB</h6>
 			</div>
 			<div class="col-sm">
-				<small class="text-muted"><strong>TOTAL RECEIVED</strong></small>
+				<small class="text-muted"><strong>ВСЕГО ПОЛУЧЕНО</strong></small>
 				<h6 style="text-transform: uppercase;">{{conf_data['total_data_usage'][1]}} GB</h6>
 			</div>
 			<div class="col-sm">
-				<small class="text-muted"><strong>TOTAL SENT</strong></small>
+				<small class="text-muted"><strong>ВСЕГО ОТПРАВЛЕНО</strong></small>
 				<h6 style="text-transform: uppercase;">{{conf_data['total_data_usage'][2]}} GB</h6>
 			</div>
 			<div class="w-100"></div>
 			<div class="col-sm">
 				<small class="text-muted">
-                    <strong>PUBLIC KEY</strong>
-                    <strong style="margin-left: auto!important; opacity: 0; transition: 0.2s ease-in-out" class="text-primary">CLICK TO COPY</strong>
+                    <strong>ПУБЛИЧНЫЙ КЛЮЧ</strong>
+                    <strong style="margin-left: auto!important; opacity: 0; transition: 0.2s ease-in-out; color: rgb(150, 16, 11)" class="text-primary">НАЖМИТЕ, ЧТОБЫ КОПИРОВАТЬ</strong>
                 </small>
 				<h6><samp class="key">{{conf_data['public_key']}}</samp></h6>
 			</div>
 			<div class="col-sm">
-				<small class="text-muted"><strong>LISTEN PORT</strong></small>
+				<small class="text-muted"><strong>ПРОСЛУШИВАЕМЫЙ ПОРТ</strong></small>
 				<h6 style="text-transform: uppercase;"><samp>
                     {% if conf_data['listen_port'] == "" %}
                         N/A
@@ -64,7 +64,7 @@
                 </samp></h6>
 			</div>
             <div class="col-sm">
-				<small class="text-muted"><strong>ADDRESS</strong></small>
+				<small class="text-muted"><strong>IP-АДРЕСС</strong></small>
 				<h6 style="text-transform: uppercase;"><samp>{{conf_data['conf_address']}}</samp></h6>
 			</div>
 		</div>
@@ -111,7 +111,7 @@
 
     <div class="row peer_list">
         {% if conf_data['peer_data']|length == 0 %}
-            <div class="col-12" style="text-align: center; margin-top: 1.5rem"><h3 class="text-muted">Oops! No peers found ‘︿’</h3></div>
+            <div class="col-12" style="text-align: center; margin-top: 1.5rem"><h3 class="text-muted">В ожидании новых пользователей...</h3></div>
         {% endif %}
 
         {% for i in conf_data['peer_data']%}
@@ -126,7 +126,7 @@
                         <div class="col-sm">
                             <h4>
                                 {% if not i['name']%}
-                                    {{ "Untitled" }}
+                                    {{ "Безымянный" }}
                                 {% else %}
                                     {{i['name']}}
                                 {% endif %}
@@ -134,31 +134,31 @@
                         </div>
                         <div class="w-100"></div>
                         <div class="col-6">
-                            <small class="text-muted"><strong>STATUS</strong></small>
+                            <small class="text-muted"><strong>СТАТУС</strong></small>
                             <h6 style="text-transform: uppercase;" class="mb-2 h6-dot-{{i['status']}}"><span class="dot dot-{{i['status']}}" style="margin-left: 0 !important;margin-top: 5px"></span></h6>
                         </div>
                         <div class="col-6 peer_data_group" style="text-align: right">
-                            <small class="text-muted"><strong>TRANSFER</strong></small>
-                            <p class="text-primary" style="text-transform: uppercase; margin-bottom: 0;"><small><i class="bi bi-arrow-down-right"></i> {{i['total_receive']}} GB</small></p>
-                            <p class="text-success" style="text-transform: uppercase; margin-bottom: 0"><small><i class="bi bi-arrow-up-right"></i> {{i['total_sent']}} GB</small></p>
+                            <small class="text-muted"><strong>ДАННЫЕ</strong></small>
+                            <p class="text-primary" style="text-transform: uppercase; margin-bottom: 0;"><small><i class="bi bi-arrow-down-right"></i> {{i['total_receive']}} ГБ</small></p>
+                            <p class="text-success" style="text-transform: uppercase; margin-bottom: 0"><small><i class="bi bi-arrow-up-right"></i> {{i['total_sent']}} ГБ</small></p>
                         </div>
                         <div class="col-sm">
                             <small class="text-muted" style="display: flex">
                                 <strong>PEER</strong>
-                                <strong style="margin-left: auto!important; opacity: 0; transition: 0.2s ease-in-out" class="text-primary">CLICK TO COPY</strong></small>
+                                <strong style="margin-left: auto!important; opacity: 0; transition: 0.2s ease-in-out" class="text-primary">НАЖМИТЕ, ЧТОБЫ КОПИРОВАТЬ</strong></small>
                             <h6><samp class="ml-auto key">{{i['id']}}</samp></h6>
                         </div>
                         <div class="col-sm">
-                            <small class="text-muted"><strong>ALLOWED IP</strong></small>
+                            <small class="text-muted"><strong>IP-АДРЕС</strong></small>
                             <h6 style="text-transform: uppercase;">{{i['allowed_ip']}}</h6>
                         </div>
                         <div class="col-sm">
-                            <small class="text-muted"><strong>LATEST HANDSHAKE</strong></small>
+                            <small class="text-muted"><strong>ПОСЛЕДНИЙ HANDSHAKE</strong></small>
                             <h6 style="text-transform: uppercase;">{{i['latest_handshake']}}</h6>
                         </div>
                         <div class="w-100"></div>
                         <div class="col-sm">
-                            <small class="text-muted"><strong>END POINT</strong></small>
+                            <small class="text-muted"><strong>ЭНДПОИНТ</strong></small>
                             <h6 style="text-transform: uppercase;">{{i['endpoint']}}</h6>
                         </div>
                         <div class="w-100"></div>

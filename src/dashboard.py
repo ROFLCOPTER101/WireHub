@@ -900,12 +900,12 @@ def update_peer_default_config():
     config.set("Peers", "peer_global_DNS", dns_addresses)
     try:
         set_dashboard_conf(config)
-        session['message'] = "Peer Default Settings update successfully!"
+        session['message'] = "Параметры по умолчанию успешно обновлены!"
         session['message_status'] = "success"
         config.clear()
         return redirect(url_for("settings"))
     except Exception:
-        session['message'] = "Peer Default Settings update failed."
+        session['message'] = "Попытка обновления не удалась."
         session['message_status'] = "danger"
         config.clear()
         return redirect(url_for("settings"))
@@ -926,22 +926,22 @@ def update_pwd():
             config.set("Account", "password", hashlib.sha256(request.form['repnewpass'].encode()).hexdigest())
             try:
                 set_dashboard_conf(config)
-                session['message'] = "Password update successfully!"
+                session['message'] = "Пароль успешно обновлён!"
                 session['message_status'] = "success"
                 config.clear()
                 return redirect(url_for("settings"))
             except Exception:
-                session['message'] = "Password update failed"
+                session['message'] = "Попытка обновления не удалась."
                 session['message_status'] = "danger"
                 config.clear()
                 return redirect(url_for("settings"))
         else:
-            session['message'] = "Your New Password does not match."
+            session['message'] = "Новый пароль не совпадает."
             session['message_status'] = "danger"
             config.clear()
             return redirect(url_for("settings"))
     else:
-        session['message'] = "Your Password does not match."
+        session['message'] = "Текущий пароль введён неверно."
         session['message_status'] = "danger"
         config.clear()
         return redirect(url_for("settings"))
@@ -1049,13 +1049,56 @@ def configuration(config_name):
     peer_mtu = config.get("Peers", "peer_MTU")
     peer_keep_alive = config.get("Peers", "peer_keep_alive")
     config.clear()
-    return render_template('configuration.html', conf=get_conf_list(), conf_data=conf_data,
+    return render_template('configuration.html', conf=config_list, current_conf=config_name, conf_data=conf_data,
                            dashboard_refresh_interval=refresh_interval,
                            DNS=dns_address,
                            endpoint_allowed_ip=allowed_ip,
                            title=config_name,
                            mtu=peer_mtu,
                            keep_alive=peer_keep_alive)
+
+
+
+# Users page
+@app.route('/configuration/<config_name>/peers', methods=['GET'])
+def configuration_users(config_name):
+    """
+    Show users for the specified wireguard interface configuration.
+    @param config_name: Name of WG interface
+    @type config_name: str
+    @return: Template
+    """
+
+    config = get_dashboard_conf()
+    conf_data = {
+        "name": config_name,
+        "status": get_conf_status(config_name),
+        "checked": ""
+    }
+    
+    # Проверяем, существует ли указанная конфигурация
+    config_list = get_conf_list()
+    if config_name not in [conf['conf'] for conf in config_list]:
+        return redirect('/')
+
+
+    # Получаем другие необходимые параметры из конфигурации
+    refresh_interval = int(config.get("Server", "dashboard_refresh_interval"))
+    dns_address = config.get("Peers", "peer_global_DNS")
+    allowed_ip = config.get("Peers", "peer_endpoint_allowed_ip")
+    peer_mtu = config.get("Peers", "peer_MTU")
+    peer_keep_alive = config.get("Peers", "peer_keep_alive")
+    config.clear()
+
+    return render_template('peers.html', conf=get_conf_list(),
+                       dashboard_refresh_interval=refresh_interval,
+                       DNS=dns_address,
+                       endpoint_allowed_ip=allowed_ip,
+                       title=f"{config_name} Users",
+                       mtu=peer_mtu,
+                       keep_alive=peer_keep_alive,
+                       conf_data=conf_data)
+
 
 
 # Get configuration details
@@ -1075,7 +1118,7 @@ def get_conf(config_name):
     }
     if not session:
         result["status"] = False
-        result["message"] = "Oops! <br> You're not signed in. Please refresh your page."
+        result["message"] = "Вы не авторизованы. Пожалуйста, войдите в аккаунт."
         return jsonify(result)
 
     if getattr(g, 'db', None) is None:
@@ -1118,7 +1161,7 @@ def get_conf(config_name):
         config.clear()
     else:
         result['status'] = False
-        result['message'] = "I cannot find this configuration. <br> Please refresh and try again"
+        result['message'] = "Не удалось найти конфигурацию <br> Попробуйте снова."
     config.clear()
     return jsonify(result)
 
@@ -1165,7 +1208,7 @@ def add_peer_bulk(config_name):
     amount = data['amount']
     config_interface = read_conf_file_interface(config_name)
     if "Address" not in config_interface:
-        return "Configuration must have an IP address."
+        return "Введите IP-адрес конфигурации."
     if not amount.isdigit() or int(amount) < 1:
         return "Amount must be integer larger than 0"
     amount = int(amount)
@@ -1233,24 +1276,24 @@ def add_peer(config_name):
     preshared_key = data['preshared_key']
     keys = get_conf_peer_key(config_name)
     if len(public_key) == 0 or len(dns_addresses) == 0 or len(allowed_ips) == 0 or len(endpoint_allowed_ip) == 0:
-        return "Please fill in all required box."
+        return "Заполните все обязательные поля."
     if not isinstance(keys, list):
-        return config_name + " is not running."
+        return config_name + " остановлена."
     if public_key in keys:
-        return "Public key already exist."
+        return "Публичный ключ уже существует."
     check_dup_ip = g.cur.execute(
         "SELECT COUNT(*) FROM " + config_name + " WHERE allowed_ip LIKE '" + allowed_ips + "/%'", ) \
         .fetchone()
     if check_dup_ip[0] != 0:
-        return "Allowed IP already taken by another peer."
+        return "IP-адрес занят другим пользователем."
     if not check_DNS(dns_addresses):
-        return "DNS formate is incorrect. Example: 1.1.1.1"
+        return "Некорректный формат DNS. Пример: 1.1.1.1"
     if not check_Allowed_IPs(endpoint_allowed_ip):
-        return "Endpoint Allowed IPs format is incorrect."
+        return "Некорректный формат эндпоинта ."
     if len(data['MTU']) == 0 or not data['MTU'].isdigit():
-        return "MTU format is not correct."
+        return "Некорректный формат MTU."
     if len(data['keep_alive']) == 0 or not data['keep_alive'].isdigit():
-        return "Persistent Keepalive format is not correct."
+        return "Некорректный формат Persistent Keepalive."
     try:
         if enable_preshared_key:
             now = str(datetime.now().strftime("%m%d%Y%H%M%S"))
@@ -1285,12 +1328,12 @@ def remove_peer(config_name):
     """
 
     if get_conf_status(config_name) == "stopped":
-        return "Your need to turn on " + config_name + " first."
+        return "Сначала необходимо запустить " + config_name 
     data = request.get_json()
     delete_keys = data['peer_ids']
     keys = get_conf_peer_key(config_name)
     if not isinstance(keys, list):
-        return config_name + " is not running."
+        return config_name + " остановлена."
     else:
         return deletePeers(config_name, delete_keys, g.cur, g.db)
 
@@ -1317,13 +1360,13 @@ def save_peer_setting(config_name):
     if check_peer_exist[0] == 1:
         check_ip = check_repeat_allowed_ip(id, allowed_ip, config_name)
         if not check_IP_with_range(endpoint_allowed_ip):
-            return jsonify({"status": "failed", "msg": "Endpoint Allowed IPs format is incorrect."})
+            return jsonify({"status": "failed", "msg": "Некорректный формат эндпоинта."})
         if not check_DNS(dns_addresses):
-            return jsonify({"status": "failed", "msg": "DNS format is incorrect."})
+            return jsonify({"status": "failed", "msg": "Некорректный формат DNS."})
         if len(data['MTU']) == 0 or not data['MTU'].isdigit():
-            return jsonify({"status": "failed", "msg": "MTU format is not correct."})
+            return jsonify({"status": "failed", "msg": "Некорректный формат MTU."})
         if len(data['keep_alive']) == 0 or not data['keep_alive'].isdigit():
-            return jsonify({"status": "failed", "msg": "Persistent Keepalive format is not correct."})
+            return jsonify({"status": "failed", "msg": "Некорректный формат Persistent Keepalive."})
         if private_key != "":
             check_key = f_check_key_match(private_key, id, config_name)
             if check_key['status'] == "failed":
@@ -1927,8 +1970,6 @@ def init_dashboard():
         config['Server']['dashboard_refresh_interval'] = '60000'
     if 'dashboard_sort' not in config['Server']:
         config['Server']['dashboard_sort'] = 'status'
-    if 'dashboard_theme' not in config['Server']:
-        config['Server']['dashboard_theme'] = 'light'
     # Default dashboard peers setting
     if "Peers" not in config:
         config['Peers'] = {}
@@ -1937,7 +1978,7 @@ def init_dashboard():
     if 'peer_endpoint_allowed_ip' not in config['Peers']:
         config['Peers']['peer_endpoint_allowed_ip'] = '0.0.0.0/0'
     if 'peer_display_mode' not in config['Peers']:
-        config['Peers']['peer_display_mode'] = 'grid'
+        config['Peers']['peer_display_mode'] = 'list'
     if 'remote_endpoint' not in config['Peers']:
         config['Peers']['remote_endpoint'] = ifcfg.default_interface()['inet']
     if 'peer_MTU' not in config['Peers']:

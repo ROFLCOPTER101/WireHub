@@ -10,20 +10,33 @@
         
         <!-- Второй контейнер для главной и настроек -->
         {% if "username" in session %}
-        <div id="main-links-container" class="d-flex justify-content-start align-items-center shadow mr-auto">
-            <a class="nav-link" href="/">Конфигурации</a>
-            <a class="nav-link mr-3" href="/settings" style="margin-right: 0px;">Настройки</a>
+            <div id="main-links-container" class="d-flex justify-content-start align-items-center shadow mr-auto">
+                <a class="nav-link" href="/">Главная</a>
+                <a class="nav-link mr-3" href="/settings" style="margin-right: 0px;">Настройки</a>
+                {% if (context == "configuration") or (context == "peers") %}
+                    <div class="nav-item dropdown mr-3">
+                        <a class="nav-link dropdown-toggle" href="#" id="configurationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Конфигурации ({{ current_conf }})
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="configurationDropdown">
+                            {% for i in conf %}
+                                <a class="dropdown-item" href="/configuration/{{ i['conf'] }}">{{ i['conf'] }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <a class="nav-link mr-3" href="/configuration/{{ current_conf }}/peers" style="margin-right: 0px;">Пользователи</a>
+                    {% endif %}
+            </div>
+            <div id="account-container" class="d-flex align-items-center shadow">
+                <a class="nav-link" data-toggle="modal" data-target="#accountModal">{{ session['username'] }}</a>
+                <i class="fas fa-user ml-2 mr-2"></i>
+            </div>
+            <div id="logout-container" class="d-flex align-items-center">
+                <a class="nav-link text-light" href="/signout">
+                    <i class="default-icon bi bi-box-arrow-right" style="transform: scaleY(2); color: rgb(255, 255, 255);"></i>
+                </a>			
+            </div>
             
-        </div>
-        <div id="account-container" class="d-flex align-items-center shadow">
-            <a class="nav-link" data-toggle="modal" data-target="#accountModal">{{ session['username'] }}</a>
-            <i class="fas fa-user ml-2 mr-2"></i>
-        </div>
-        <div id="logout-container" class="d-flex align-items-center">
-            <a class="nav-link text-light" href="/signout">
-                <i class="default-icon bi bi-box-arrow-right" style="transform: scaleY(2); color: rgb(255, 255, 255);"></i>
-            </a>			
-        </div>
         {% endif %}
     </div>
 </nav>

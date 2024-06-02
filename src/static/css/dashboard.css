@@ -3,6 +3,7 @@ body {
     font-size: .875rem; /* Размер шрифта */
     font-family: 'Accord', 'Helvetica', sans-serif; /* Шрифт */
     background-color: #f7f7f7;
+    overflow: hidden;
 }
 
 /* Стили для блока кода */
@@ -97,7 +98,7 @@ h1, h2, h3, h4, h5, h6 {
     border-radius: 15px;
     background-color: rgb(150, 16, 11);
     margin-left: 3px;
-    margin-right: 6px;
+    margin-right: 65px;
     padding: 4px 4px;
 }
 
@@ -162,8 +163,7 @@ a.nav-link:hover {
     padding: 10px 20px; /* Задаём внутренний отступ */
     margin-top: 7px; /* Задаём отступ от верхней части страницы */
     margin-bottom: 7px;
-    margin-left: 10px;
-    margin-left: 10px;
+    margin-left: 145px;
     display: inline-block; /* Делаем элемент блочным, чтобы применить отступ сверху и снизу */
     font-size: 1rem;
     background-color: rgb(150, 16, 11);
@@ -365,14 +365,16 @@ a.nav-link:hover {
 
 main {
     background-color: rgb(255, 255, 255);
-    border-width: 2cqw;
+    border-width: 2px; /* Смените единицы измерения на пиксели */
     border-radius: 20px; /* Задаём радиус скругления границ */
-    padding: 10px 10px; /* Задаём внутренний отступ */
+    padding: 10px; /* Задаём внутренний отступ */
     margin-top: 15px; /* Задаём отступ от верхней части страницы */
     margin-bottom: 7px;
-    margin-left: 316px;
-    height: 85%;
-    max-width: 73%;
+    margin-left: 133px;
+    min-height: 85vh; /* Задаём минимальную высоту */
+    max-height: 100vh; /* Ограничиваем максимальную высоту */
+    max-width: 90%;
+    overflow: auto; /* Позволяет скроллить содержимое при переполнении */
 }
 
 .scrollable-container {
@@ -397,15 +399,17 @@ main {
 
 .btn-manage-group {
     z-index: 99;
-    bottom: 3rem;
-    right: 2rem;
+    top: 105px;
+    right: 105;
     display: flex;
+    position: fixed;
 }
 
 .btn-manage-group .setting_btn_menu {
     position: absolute;
-    top: -124px;
-    background-color: white;
+    z-index: 99;
+    top: 65;
+    background-color: #f7f7f7;
     padding: 1rem 0;
     right: 0;
     box-shadow: 0 10px 20px rgb(0 0 0 / 19%), 0 6px 6px rgb(0 0 0 / 23%);

@@ -2,7 +2,8 @@
 {% with title=title%}
 {% include "header.html"%}
 {% endwith %}
-{% set context = "configuration"%}
+
+{% set context = "peers"%}
 <body>
     <div class="no-response">
         <div class="container">
@@ -12,9 +13,13 @@
     </div>
     {% include "navbar.html" %}
     <div class="container-fluid" id="right_body">
+        {% set context = "configuration"%}
         <div id="config_body">
             <main role="main" class="shadow" style="margin-bottom: 10rem !important;">
-                <div class="info mt-4">
+                <div style="display: flex; flex-direction: row; align-items: center;">
+                    <h1 class="mt-4" style="margin-left: 15px">Пользователи</h1>
+                </div>
+                <div class="info mt-4 d-none">
                     <div>
                         <pre class="index-alert d-none" style="margin-bottom: 1rem;"></pre>
                     </div>
@@ -73,8 +78,7 @@
                         </div>
                     </div>
                 </div>
-                <hr>
-                <div class="row chartContainer">
+                <div class="row chartContainer d-none">
                     <div class="col-sm">
                         <div class="chartTitle">
                             <h6>Data Usage / Refresh Interval</h6>
@@ -93,33 +97,30 @@
                         </div>
                     </div>
                 </div>
-                <hr>
-                <div class="button-div mb-3">
+                <div class="button-div mb-3" style = "padding: 15 15;">
                     <div class="row">
                         <div class="col-md">
                             <div class="row">
-                                <div class="col-md">
+                                <div class="col-md" style = "width: 768px">
                                     <div class="form-group">
-                                        <label for="search_peer_textbox"><small class="text-muted">Search
-                                                Peers</small></label>
+                                        <label for="search_peer_textbox"><a class="text-muted">Поиск пользователя</a></label>
                                         <input type="text" class="form-control" id="search_peer_textbox"
-                                            placeholder="Enter Peer's Name" value="">
+                                            placeholder="Имя" value="">
                                     </div>
                                 </div>
-                                <div class="col-md">
-                                    <div class="form-group">
-                                        <label for="sort_by_dropdown"><small class="text-muted">Sort Peers
-                                                By</small></label>
+                                <div class="col-md" style = "width: 30%">
+                                    <div class="form-group" style = "width: 30%">
+                                        <label for="sort_by_dropdown"><a class="text-muted">Сортировка по</a></label>
                                         <select class="form-control" id="sort_by_dropdown">
-                                            <option value="status">Status</option>
-                                            <option value="name">Name</option>
-                                            <option value="allowed_ip">Allowed IP</option>
+                                            <option value="status">Статусу</option>
+                                            <option value="name">Имени</option>
+                                            <option value="allowed_ip">IP-адресу</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md">
+                        <div class="col-md d-none">
                             <div class="form-group">
                                 <label><small class="text-muted">Refresh Interval</small></label><br>
                                 <div class="btn-group interval-btn-group" role="group" style="width: 100%">
@@ -142,7 +143,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md">
+                        <div class="col-md d-none">
                             <div class="form-group">
                                 <label><small class="text-muted">Display Mode</small></label><br>
                                 <div class="btn-group display-btn-group" role="group" style="width: 100%">
@@ -166,11 +167,6 @@
                                 <a class="text-info" id="download_all_peers"
                                     data-url="/download_all/{{conf_data['name']}}"><i
                                         class="bi bi-cloud-download-fill"></i>Архив пользователей</a>
-                                <hr>
-                                <a class="text-primary" id="edit_configuration"><i class="bi bi-gear-fill"></i>
-                                    Параметры конфигурации</a>
-                                <a class="text-danger" id="configuration_delete"><i class="bi bi-trash3-fill"></i>
-                                    Удалить уонфигурацию</a>
                             </div>
                         </div>
 
