@@ -395,7 +395,7 @@ let peers = [];
     function configurationPeers(response) {
         let result = "";
         if (response.peer_data.length === 0) {
-            document.querySelector(".peer_list").innerHTML = `<div class="col-12" style="text-align: center; margin-top: 1.5rem"><h3 class="text-muted">Oops! No peers found ‘︿’</h3></div>`;
+            document.querySelector(".peer_list").innerHTML = `<div class="col-12" style="text-align: center; margin-top: 1.5rem"><h3 class="text-muted">В ожидании новых пользователей...</h3></div>`;
         } else {
             let mode = display_mode === "list" ? "col-12" : "col-sm-6 col-lg-4";
             response.peer_data.forEach(function (peer) {
@@ -413,7 +413,11 @@ let peers = [];
                         <p class="text-success">
                             <small><i class="bi bi-arrow-up-right"></i> ${roundN(peer.total_sent + total_s, 4)} Гб</small>
                         </p>
-                    </div>`;
+                    </div>
+                    <h6 class="peerLightContainer">
+                    <span class="dot dot-${peer.status}" style="margin-left: auto !important;" data-toggle="tooltip" data-placement="left"></span>
+                    </h6>`
+                    ;
     
                 let peer_endpoint = 
                     `<div class="col-lg-3">
@@ -463,6 +467,9 @@ let peers = [];
                             <div class="card-body">
                                 <div class="row">
                                     ${peer_name}
+
+                                </div>
+                                <div class="row">
                                     ${peer_endpoint}
                                     ${peer_key_and_handshake}
                                     ${peer_control}

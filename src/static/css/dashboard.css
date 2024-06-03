@@ -780,7 +780,7 @@ pre.index-alert {
 .peerLightContainer {
     text-transform: uppercase;
     margin: 0;
-    margin-left: auto !important;
+    width: 10px;
 }
 
 .conf_card .dot,
