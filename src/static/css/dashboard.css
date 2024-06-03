@@ -1,14 +1,18 @@
 /* Общие стили для текста */
 body {
     font-size: .875rem; /* Размер шрифта */
-    font-family: 'Accord', 'Helvetica', sans-serif; /* Шрифт */
+    font-family: 'Roboto-Medium';
     background-color: #f7f7f7;
     overflow: hidden;
 }
 
 /* Стили для блока кода */
 .codeFont{
-    font-family: 'Fira Code', monospace;
+    font-family: 'Roboto-Medium';
+}
+
+.code .samp{
+    font-family: 'Roboto-Medium';
 }
 
 /* Стили для иконок */
@@ -29,7 +33,7 @@ a {
   }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Open Sans', sans-serif; /* Шрифт для заголовков */
+    font-family: 'Roboto-Medium'; /* Шрифт для заголовков */
 }
 
 /*
@@ -322,6 +326,23 @@ a.nav-link:hover {
     color: #6c757d
 }
 
+.btn-outline-primary{
+    color:rgb(150, 16, 11);
+    border-color: rgb(150, 16, 11);; 
+}
+
+.btn-outline-primary:hover{
+    color: #fff;
+    background-color: rgb(150, 16, 11); 
+    border-color: rgb(150, 16, 11); 
+}
+
+.btn-outline-primary:not(:disabled):not(.disabled).active{
+    color: #fff;
+    background-color: rgb(150, 16, 11); 
+    border-color: rgb(150, 16, 11); 
+}
+
 .btn-control.btn-outline-primary:hover{
     color: #ff0000
 }
@@ -381,8 +402,8 @@ main {
     margin-top: 15px; /* Задаём отступ от верхней части страницы */
     margin-bottom: 7px;
     margin-left: 133px;
-    min-height: 85vh; /* Задаём минимальную высоту */
-    max-height: 100vh; /* Ограничиваем максимальную высоту */
+    min-height: 70vh; /* Задаём минимальную высоту */
+    max-height: 90vh; /* Ограничиваем максимальную высоту */
     max-width: 90%;
     overflow: auto; /* Позволяет скроллить содержимое при переполнении */
 }
@@ -566,7 +587,7 @@ main {
 #private_key,
 #public_key,
 #peer_preshared_key_textbox {
-    font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-family: 'Roboto-Medium';
 }
 
 .progress-bar {

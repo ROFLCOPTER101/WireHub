@@ -74,7 +74,14 @@
                 <div class="chartContainer" style="border-bottom: 2px;border-top-style: solid;border-top-width: 2px;border-left-width: 2px;border-left-style: solid;border-right-width: 2px;border-right-style: solid;border-bottom-width: 2px;border-bottom-style: solid;max-width: 1300px;">
                     <div class="col-sm">
                         <div class="chartTitle">
-                            <h6>Data Usage / Refresh Interval</h6>
+                            <h6>Использование </h6>
+                            <div class="chartControl" style="margin-left: auto">
+                                <div class="btn-group" role="group">
+                                    <button class="btn btn-outline-primary btn-sm switchUnit" data-unit="Гб">Гбайт</button>
+                                    <button class="btn btn-outline-primary btn-sm switchUnit" data-unit="Мб">Мбайт</button>
+                                    <button class="btn btn-outline-primary btn-sm switchUnit" data-unit="Кб">Кбайт</button>
+                                </div>
+                            </div>
                         </div>
                         <div class="chartCanvasContainer" style="width: 85%; height: 300px; margin-left: 100px">
                             <canvas id="totalDataUsageChartObj" width="85" height="85"></canvas>
@@ -156,17 +163,11 @@
                                     class="bi bi-plus-lg"></i></button>
                             <button type="button" class="btn btn-secondary setting_btn"><i
                                     class="bi bi-three-dots"></i></button>
-                            <div class="setting_btn_menu">
-                                <a class="text-danger" id="delete_peers_by_bulk_btn"><i class="bi bi-trash-fill"></i>
-                                    Удалить пользователей</a>
-                                <a class="text-info" id="download_all_peers"
-                                    data-url="/download_all/{{conf_data['name']}}"><i
-                                        class="bi bi-cloud-download-fill"></i>Архив пользователей</a>
-                                <hr>
-                                <a class="text-primary" id="edit_configuration"><i class="bi bi-gear-fill"></i>
-                                    Параметры конфигурации</a>
-                                <a class="text-danger" id="configuration_delete"><i class="bi bi-trash3-fill"></i>
-                                    Удалить уонфигурацию</a>
+                            <div class="setting_btn_menu" style="text-align: left;">
+                                <a style="color: rgb(150, 16, 11); text-align: left;"><i class="bi bi-gear-fill"></i>
+                                    Параметры</a>                                
+                                <a style="color: rgb(145, 145, 145)"><i class="bi bi-trash3-fill"></i>
+                                    Удалить конфигурацию</a>
                             </div>
                         </div>
 
