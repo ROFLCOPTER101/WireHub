@@ -489,6 +489,21 @@ $body.on("click", ".btn-lock-peer", function() {
     }
 });
 
+$body.on("change", ".toggle-lock-peer", function() {
+    const peerId = $(this).data('peer-id');
+    const peerName = $(this).data('peer-name');
+
+    configurations.toggleAccess(peerId, configurations.getConfigurationName());
+
+    if ($(this).prop("checked")) {
+        showToast(`Enabled ${peerName}`);
+        $(this).next().tooltip('hide').attr('data-original-title', 'Peer enabled. Click to disable peer.').tooltip('show');
+    } else {
+        showToast(`Disabled ${peerName}`);
+        $(this).next().tooltip('hide').attr('data-original-title', 'Peer disabled. Click to enable peer.').tooltip('show');
+    }
+});
+
 /**
  * When the confirm delete button clicked
  */
@@ -753,7 +768,6 @@ $body.on("click", ".display_mode", function() {
  * =================
  */
 let $setting_btn_menu = $(".setting_btn_menu");
-$setting_btn_menu.css("top", ($setting_btn_menu.height() + 54) * (-1));
 let $setting_btn = $(".setting_btn");
 
 /**

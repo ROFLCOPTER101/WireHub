@@ -17,38 +17,43 @@
 				
             </div>
             <div class="index-alert alert alert-danger d-none" role="alert">
-                Configuration toggle failed. Please check the following error message:
+                Смена состояния конфигурации не удалась. Возникла следующая ошибка:
             </div>
             <pre class="index-alert index-alert-full d-none"><code></code></pre>
 
             {% if conf == [] %}
-                <p class="text-muted">You don't have any WireGuard configurations yet. Please check the configuration folder or change it in "Settings". By default the folder is "/etc/wireguard".</p>
+                <p class="text-muted">Не найдено ни одной конфигурации. Проверьте директорию конфигурации или измените её на странице "Настройки". По умолчанию установлена папка "/etc/wireguard".</p>
             {% endif %}
 			<div class="scrollable-container">
 				{% for i in conf %}
 					<div class="card mt-3 conf_card" data-conf-id="{{i['conf']}}">
 						<div class="card-body">
 							<div class="row">
-								<div class="col card-col">
-									<small class="text-muted"><strong>CONFIGURATION</strong></small>
+								<div class="col card-col" style="max-width: 10%; ">
+									<small class="text-muted"><strong>КОНФИГУРАЦИЯ</strong></small>
 									<a href="/configuration/{{i['conf']}}" class="conf_link">
 										<h6 class="card-title" style="margin:0 !important;"><samp>{{i['conf']}}</samp></h6>
 									</a>
 								</div>
-								<div class="col card-col">
-									<small class="text-muted"><strong>STATUS</strong></small>
+								<div class="col card-col" style="max-width: 10%; ">
+									<small class="text-muted"><strong>СОСТОЯНИЕ</strong></small>
 									<h6 style="text-transform: uppercase; margin:0 !important;"><span>{{i['status']}}</span><span class="dot dot-{{i['status']}}"></span></h6>
 								</div>
-								<div class="col-sm card-col">
-									<small class="text-muted"><strong>PUBLIC KEY</strong></small>
+								<div class="col card-col" style="max-width: 10%; ">
+									<small class="text-muted"><strong>ПОРТ</strong></small>
+									<h6 style="margin:0 !important;"><samp>{{i['port']}}</samp></h6>
+								</div>
+								<div class="col card-col" style="max-width: 25%; ">
+									<small class="text-muted"><strong>ПУБЛИЧНЫЙ КЛЮЧ</strong></small>
 									<h6 style="margin:0 !important;"><samp>{{i['public_key']}}</samp></h6>
 								</div>
 								<div class="col-sm index-switch">
 									<div class="switch-test">
+										<small class="text-muted"><strong>ВЫКЛ/ВКЛ</strong></small><br>
 										<input type="checkbox" class="toggle--switch" id="{{i['conf']}}-switch" {{i['checked']}} data-conf-id="{{i['conf']}}">
 										<label for="{{i['conf']}}-switch" class="toggleLabel"></label>
 									</div>
-									<button type="button" id = "toggleDeleteConfiguration" class="btn btn-secondary delete_btn"><i class="bi bi-trash-fill" style="color: rgb(109, 111, 116);"></i></button>
+									<button type="button" id = "toggleDeleteConfiguration" class="btn btn-secondary delete_btn"><i class="bi bi-trash-fill" style="color: rgb(148, 149, 151);"></i></button>
 								</div>
 							</div>
 							<div class="card-message"></div>
@@ -64,7 +69,7 @@
 		<div class="modal-dialog modal-dialog-centered modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="staticBackdropLabel">Add New Configuration</h5>
+					<h5 class="modal-title" id="staticBackdropLabel">Добавить новую конфигурацию</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -77,7 +82,7 @@
 					<form id="add_configuration_form">
                         <div class="form-group">
                             <div>
-                                <label for="addConfigurationPrivateKey">Private Key <code>*</code></label>
+                                <label for="addConfigurationPrivateKey">Закрытый ключ<code>*</code></label>
                             </div>
                             <div class="input-group">
                                 <input type="text" class="form-control codeFont" id="addConfigurationPrivateKey" name="addConfigurationPrivateKey" required>
@@ -90,15 +95,15 @@
                         <div class="row">
                             <div class="col-sm">
                                 <div class="form-group">
-                                    <label for="addConfigurationName">Configuration Name <code>*</code></label>
+                                    <label for="addConfigurationName">Название конфигурации <code>*</code></label>
                                     <input type="text" class="form-control" id="addConfigurationName" name="addConfigurationName" required>
                                     <div id="addConfigurationNameFeedback" class="input-feedback"></div>
                                 </div>
                             </div>
                             <div class="col-sm">
                                 <div class="form-group">
-                                    <label for="addConfigurationListenPort">Listen Port <code>*</code></label>
-                                    <input type="number" class="form-control codeFont" id="addConfigurationListenPort" name="addConfigurationListenPort" required>
+                                    <label for="addConfigurationListenPort">Прослушиваемый порт <code>*</code></label>
+                                    <input type="number" class="ыform-control codeFont" id="addConfigurationListenPort" name="addConfigurationListenPort" required>
                                     <div id="addConfigurationListenPortFeedback" class="input-feedback"></div>
                                 </div>
                             </div>
@@ -106,18 +111,12 @@
 						<div class="row">
 							<div class="col-sm">
 								<div class="form-group">
-									<label for="addConfigurationAddress">Address <code>*</code>
+									<label for="addConfigurationAddress">IP-адрес<code>*</code>
                                         
                                     </label>
 									<input type="text" class="form-control codeFont" id="addConfigurationAddress" placeholder="Ex: 192.168.0.1/24" name="addConfigurationAddress" required>
                                     <div id="addConfigurationAddressFeedback" class="input-feedback"></div>
                                 </div>
-							</div>
-							<div class="col-sm">
-								<div class="form-group">
-									<label for=""># of available IPs</label>
-									<p class="addConfigurationAvailableIPs">N/A</p>
-								</div>
 							</div>
 						</div>
                         <hr>
@@ -138,17 +137,6 @@
                             <input type="text" class="form-control codeFont" id="addConfigurationPostDown" name="addConfigurationPostDown"> 
                         </div>
 					</form>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-					<button type="button" class="btn btn-primary" id="addConfigurationBtn">Add</button>
-                    <div class="text-primary addConfigurationStatus addConfigurationAddStatus d-none">
-						<div class="spinner-border spinner-border-sm" role="status"><span class="sr-only">Loading...</span></div>
-						Add Configuration
-					</div>
-					<div class="text-primary addConfigurationStatus addConfigurationToggleStatus d-none waiting">
-						<i class="bi bi-circle"></i> Toggle Configuration
-					</div>
 				</div>
 			</div>
 		</div>

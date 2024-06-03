@@ -162,18 +162,18 @@
                             <button type="button" class="btn btn-secondary setting_btn"><i
                                     class="bi bi-three-dots"></i></button>
                             <div class="setting_btn_menu">
-                                <a class="text-danger" id="delete_peers_by_bulk_btn"><i class="bi bi-trash-fill"></i>
+                                <a id="download_all_peers" style="color: rgb(150, 16, 11)"
+                                    data-url="/download_all/{{conf_data['name']}}">
+                                    <i class="bi bi-download" style="color: rgb(150, 16, 11)"></i>Архив пользователей</a>
+                                <a id="delete_peers_by_bulk_btn" style="color: rgb(145, 145, 145)"><i class="bi bi-trash-fill" style="color: rgb(145, 145, 145)"></i>
                                     Удалить пользователей</a>
-                                <a class="text-info" id="download_all_peers"
-                                    data-url="/download_all/{{conf_data['name']}}"><i
-                                        class="bi bi-cloud-download-fill"></i>Архив пользователей</a>
                             </div>
                         </div>
 
                     </div>
                 </div>
                 <div class="row peer_list"></div>
-                <small id="peer_loading_time" class="text-muted"></small>
+                <small id="peer_loading_time d-none" class="text-muted"></small>
             </main>
         </div>
     </div>

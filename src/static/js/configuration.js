@@ -48,11 +48,11 @@ let peers = [];
      * @type {any}
      */
     let chartUnit = window.localStorage.chartUnit;
-    let chartUnitAvailable = ["GB", "MB", "KB"];
+    let chartUnitAvailable = ["Гб", "Мб", "Кб"];
 
     if (chartUnit === null || !chartUnitAvailable.includes(chartUnit)) {
-        window.localStorage.setItem("chartUnit", "GB");
-        $('.switchUnit[data-unit="GB"]').addClass("active");
+        window.localStorage.setItem("chartUnit", "Гб");
+        $('.switchUnit[data-unit="Гб"]').addClass("active");
     } else {
         $(`.switchUnit[data-unit="${chartUnit}"]`).addClass("active");
     }
@@ -65,7 +65,7 @@ let peers = [];
         data: {
             labels: [],
             datasets: [{
-                label: '⬆ Upload',
+                label: '⬆ Отправено',
                 data: [],
                 stroke: '#FFFFFF',
                 borderColor: '#800000', // Бордовый для отправленных данных
@@ -76,7 +76,7 @@ let peers = [];
                 borderWidth: 1
             },
             {
-                label: '⬇ Download',
+                label: '⬇ Получено',
                 data: [],
                 stroke: '#FFFFFF',
                 borderColor: '#C0C0C0', // Светло-серый для полученных данных
@@ -142,24 +142,24 @@ let peers = [];
         $(`.switchUnit[data-unit=${$(this).data('unit')}]`).addClass("active");
         if ($(this).data('unit') !== chartUnit) {
             switch ($(this).data('unit')) {
-                case "GB":
-                    if (chartUnit === "MB") {
+                case "Гб":
+                    if (chartUnit === "Мб") {
                         mul = 1 / 1024;
                     }
-                    if (chartUnit === "KB") {
+                    if (chartUnit === "Кб") {
                         mul = 1 / 1048576;
                     }
                     break;
                 case "MB":
-                    if (chartUnit === "GB") {
+                    if (chartUnit === "Гб") {
                         mul = 1024;
                     }
-                    if (chartUnit === "KB") {
+                    if (chartUnit === "Кб") {
                         mul = 1 / 1024;
                     }
                     break;
-                case "KB":
-                    if (chartUnit === "GB") {
+                case "Кб":
+                    if (chartUnit === "Гб") {
                         mul = 1048576;
                     }
                     if (chartUnit === "MB") {
@@ -353,7 +353,7 @@ let peers = [];
                 let k = 0;
                 if (chartUnit === "MB") {
                     k = 1024;
-                } else if (chartUnit === "KB") {
+                } else if (chartUnit === "Кб") {
                     k = 1048576;
                 } else {
                     k = 1;
@@ -373,9 +373,9 @@ let peers = [];
         document.querySelector(`#sort_by_dropdown option[value="${response.sort_tag}"]`).setAttribute("selected", "selected");
         document.querySelector("#conf_status").innerHTML = `${response.status}<span class="dot dot-${response.status}"></span>`;
         document.querySelector("#conf_connected_peers").innerHTML = response.running_peer;
-        document.querySelector("#conf_total_data_usage").innerHTML = `${response.total_data_usage[0]} GB`;
-        document.querySelector("#conf_total_data_received").innerHTML = `${response.total_data_usage[2]} GB`;
-        document.querySelector("#conf_total_data_sent").innerHTML = `${response.total_data_usage[1]} GB`;
+        document.querySelector("#conf_total_data_usage").innerHTML = `${response.total_data_usage[0]} Гб`;
+        document.querySelector("#conf_total_data_received").innerHTML = `${response.total_data_usage[2]} Гб`;
+        document.querySelector("#conf_total_data_sent").innerHTML = `${response.total_data_usage[1]} Гб`;
         document.querySelector("#conf_public_key").innerHTML = response.public_key;
         document.querySelector("#conf_listen_port").innerHTML = response.listen_port === "" ? "N/A" : response.listen_port;
         document.querySelector("#conf_address").innerHTML = response.conf_address;
@@ -403,164 +403,73 @@ let peers = [];
                 let total_s = 0;
                 total_r += peer.cumu_receive;
                 total_s += peer.cumu_sent;
-
-
-                let spliter = '<div class="w-100"></div>';
+    
                 let peer_name =
-                    `<div class="col-sm peerNameCol">
+                    `<div class="col-lg-3">
                         <h5 class="peerName">${peer.name === "" ? "Untitled" : peer.name}</h5>
-                        <h6 class="peerLightContainer">
-                            <span class="dot dot-${peer.status}" style="margin-left: auto !important;" data-toggle="tooltip" data-placement="left"></span>
-                        </h6>
-                     </div>`;
-                let peer_transfer =
-                    `<div class="col-12 peer_data_group" style="">
-                        <p class="text-primary" style="">
-                            <small><i class="bi bi-arrow-down-right"></i> ${roundN(peer.total_receive + total_r, 4)} GB</small>
+                        <p class="text-primary">
+                            <small><i class="bi bi-arrow-down-right"></i> ${roundN(peer.total_receive + total_r, 4)} Гб</small>
                         </p>
                         <p class="text-success">
-                            <small><i class="bi bi-arrow-up-right"></i> ${roundN(peer.total_sent + total_s, 4)} GB</small>
+                            <small><i class="bi bi-arrow-up-right"></i> ${roundN(peer.total_sent + total_s, 4)} Гб</small>
                         </p>
                     </div>`;
-                let peer_key =
-                    `<div class="col-sm">
-                        <small class="text-muted" style="display: flex">
-                            <strong>PEER</strong>
-                            <strong style="margin-left: auto!important; opacity: 0; transition: 0.2s ease-in-out" class="text-primary">CLICK TO COPY</strong>
-                        </small>
-                        <h6><samp class="ml-auto key">${peer.id}</samp></h6>
-                    </div>`;
-                let peer_allowed_ip = `
-                    <div class="col-sm">
-                        <small class="text-muted">
-                            <strong>ALLOWED IP</strong>
-                        </small>
+    
+                let peer_endpoint = 
+                    `<div class="col-lg-3">
+                        <small class="text-muted"><strong>END POINT</strong></small>
+                        <h6 style="text-transform: uppercase;">${peer.endpoint}</h6>
+                        <small class="text-muted"><strong>ALLOWED IP</strong></small>
                         <h6 style="text-transform: uppercase;">${peer.allowed_ip}</h6>
                     </div>`;
-                let peer_latest_handshake =
-                    `<div class="col-sm">
+    
+                let peer_key_and_handshake =
+                    `<div class="col-lg-3">
+                        <small class="text-muted"><strong>PEER</strong></small>
+                        <h6><samp class="ml-auto key">${peer.id}</samp></h6>
                         <small class="text-muted"><strong>LATEST HANDSHAKE</strong></small>
                         <h6 style="text-transform: uppercase;">${peer.latest_handshake}</h6>
                     </div>`;
-                let peer_endpoint =
-                    `<div class="col-sm">
-                        <small class="text-muted"><strong>END POINT</strong></small>
-                        <h6 style="text-transform: uppercase;">${peer.endpoint}</h6>
-                    </div>`;
+    
                 let peer_control = `
-                    <div class="col-sm">
-                        <hr style="margin: 1rem -20px;">
-                        <div class="button-group" style="display:flex">
+                    <div class="col-lg-3" style="text-align: right;">
+                        <div class="button-group" style="display:flex; justify-content: flex-end; align-items: center;">
                             <button type="button" class="btn btn-outline-primary btn-setting-peer btn-control" data-peer-id="${peer.id}" data-toggle="modal">
                                 <i class="bi bi-gear-fill" data-toggle="tooltip" data-placement="bottom" title="Peer Settings"></i>
-                            </button>
-                            <button type="button" class="btn btn-outline-primary btn-data-usage-peer btn-control" data-peer-id="${peer.id}" data-toggle="modal">
-                                <i class="bi bi-clipboard-data-fill" data-toggle="tooltip" data-placement="bottom" title="Data Usage"></i>
                             </button>
                             <button type="button" class="btn btn-outline-danger btn-delete-peer btn-control" data-peer-id="${peer.id}" data-toggle="modal">
                                 <i class="bi bi-x-circle-fill" data-toggle="tooltip" data-placement="bottom" title="Delete Peer"></i>
                             </button>
-                            
-                            <button type="button" class="btn btn-outline-success btn-lock-peer btn-control" data-peer-id="${peer.id}" data-toggle="modal">
-                                <i class="bi bi-ethernet" data-toggle="tooltip" data-placement="bottom" data-original-title='Peer enabled. Click to disable peer.' data-peer-name="${peer.name}"></i>
-                            </button>`;
+                            <div class="switch">
+                                <input type="checkbox" class="toggle-lock-peer" data-peer-id="${peer.id}" data-peer-name="${peer.name}" checked>
+                                <label for="toggleLabel" class="toggle-switch"></label>
+                            </div>`;
+    
                 if (peer.private_key !== "") {
-                    peer_control +=
-                        `<div class="share_peer_btn_group" style="margin-left: auto !important; display: inline">
+                    peer_control += `
+                        <div class="share_peer_btn_group" style="margin-left: auto !important; display: inline-block;">
                             <button type="button" class="btn btn-outline-success btn-qrcode-peer btn-control" data-imgsrc="/qrcode/${response.name}?id=${encodeURIComponent(peer.id)}">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width: 19px;" fill="#28a745"><path d="M3 11h8V3H3v8zm2-6h4v4H5V5zM3 21h8v-8H3v8zm2-6h4v4H5v-4zM13 3v8h8V3h-8zm6 6h-4V5h4v4zM13 13h2v2h-2zM15 15h2v2h-2zM13 17h2v2h-2zM17 17h2v2h-2zM19 19h2v2h-2zM15 19h2v2h-2zM17 13h2v2h-2zM19 15h2v2h-2z"/></svg>
                             </button>
                             <a href="/download/${response.name}?id=${encodeURIComponent(peer.id)}" class="btn btn-outline-info btn-download-peer btn-control"><i class="bi bi-download"></i></a>
                         </div>`;
                 }
+    
                 peer_control += '</div></div>';
+    
                 let html =
                     `<div class="${mode}" data-id="${peer.id}">
                         <div class="card mb-3 card-${peer.status}">
                             <div class="card-body">
-                                <div class="row">` +
-                    peer_name +
-                    spliter +
-                    peer_transfer +
-                    peer_key +
-                    peer_allowed_ip +
-                    peer_latest_handshake +
-                    spliter +
-                    peer_endpoint +
-                    spliter +
-                    peer_control +
-                    `</div></div></div></div>`;
-                result += html;
-            });
-            response.lock_access_peers.forEach(function (peer) {
-                let total_r = 0;
-                let total_s = 0;
-                total_r += peer.cumu_receive;
-                total_s += peer.cumu_sent;
-                let spliter = '<div class="w-100"></div>';
-                let peer_name =
-                    `<div class="col-sm peerNameCol">
-                        <h5 class="peerName">${peer.name === "" ? "Untitled" : peer.name}</h5>
-                        <h6 class="peerLightContainer"><span class="dot dot-${peer.status}" style="margin-left: auto !important;" data-toggle="tooltip" data-placement="left"></span></h6>
-                     </div>`;
-                let peer_transfer =
-                    `<div class="col-12 peer_data_group" style="">
-                        <p class="text-primary" style="">
-                            <small><i class="bi bi-arrow-down-right"></i> ${roundN(peer.total_receive + total_r, 4)} GB</small>
-                        </p>
-                        <p class="text-success">
-                            <small><i class="bi bi-arrow-up-right"></i> ${roundN(peer.total_sent + total_s, 4)} GB</small>
-                        </p>
+                                <div class="row">
+                                    ${peer_name}
+                                    ${peer_endpoint}
+                                    ${peer_key_and_handshake}
+                                    ${peer_control}
+                                </div>
+                            </div>
+                        </div>
                     </div>`;
-                let peer_key =
-                    `<div class="col-sm">
-                        <small class="text-muted" style="display: flex">
-                            <strong>PEER</strong><strong style="margin-left: auto!important; opacity: 0; transition: 0.2s ease-in-out" class="text-primary">CLICK TO COPY</strong>
-                        </small>
-                        <h6><samp class="ml-auto key">${peer.id}/samp></h6>
-                    </div>`;
-                let peer_allowed_ip =
-                    `<div class="col-sm">
-                        <small class="text-muted"><strong>ALLOWED IP</strong></small>
-                        <h6 style="text-transform: uppercase;">${peer.allowed_ip}</h6>
-                    </div>`;
-                let peer_latest_handshake =
-                    `<div class="col-sm">
-                        <small class="text-muted"><strong>LATEST HANDSHAKE</strong></small>
-                        <h6 style="text-transform: uppercase;">${peer.latest_handshake}</h6>
-                    </div>`;
-                let peer_endpoint =
-                    `<div class="col-sm">
-                        <small class="text-muted"><strong>END POINT</strong></small>
-                        <h6 style="text-transform: uppercase;">${peer.endpoint}</h6>
-                    </div>`;
-                let peer_control = `
-                    <div class="col-sm">
-                        <hr style="margin: 1rem -20px;">
-                        <div class="button-group" style="display:flex; align-items: center;">
-                            <button type="button" class="btn btn-outline-success btn-lock-peer btn-control lock" data-peer-id="${peer.id}" data-toggle="modal">
-                                <i class="bi bi-ethernet" data-toggle="tooltip" data-placement="bottom" data-original-title='Peer disabled. Click to enable peer.' data-peer-name="${peer.name}"></i>
-                            </button>
-                            <small class="text-muted" style="margin-left: auto">Peer Disabled</small>
-                            </div>`;
-                let html = '<div class="' + mode + '" data-id="' + peer.id + '">' +
-                    '<div class="card mb-3 card-' + peer.status + '">' +
-                    '<div class="card-body">' +
-                    '<div class="row">' +
-                    peer_name +
-                    spliter +
-                    peer_transfer +
-                    peer_key +
-                    peer_allowed_ip +
-                    peer_latest_handshake +
-                    spliter +
-                    peer_endpoint +
-                    spliter +
-                    peer_control +
-                    '</div>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div></div>';
                 result += html;
             });
             document.querySelector(".peer_list").innerHTML = result;
@@ -569,7 +478,7 @@ let peers = [];
             }
         }
     }
-
+    
     /**
      * Handle when adding peers by bulk
      */

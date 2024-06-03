@@ -13,90 +13,77 @@
     {% include "navbar.html" %}
     <div class="container-fluid" id="right_body">
         <div id="config_body">
-            <main role="main" class="shadow" style="margin-bottom: 10rem !important;">
+            <main role="main" class="shadow" style="margin-bottom: 10rem !important; padding-left: 40;">
                 <div class="info mt-4">
-                    <div>
-                        <pre class="index-alert d-none" style="margin-bottom: 1rem;"></pre>
-                    </div>
+                    <!-- Название конфигурации -->
                     <div class="row">
-                        <div class="col">
-                            <small class="text-muted"><strong>CONFIGURATION</strong></small>
+                        <div class="col" style="margin-left:150;">
+                            <small class="text-muted"><strong>КОНФИГУРАЦИЯ<strong></small>
                             <h1 class="mb-3"><samp id="conf_name">{{ title }}</samp></h1>
                         </div>
-                        <div class="col">
-                            <small class="text-muted"><strong>TOGGLE</strong></small><br>
-                            <div id="switch" class="info_loading">
-                                <input type="checkbox" class="toggle--switch" id="toggle--switch">
-                                <label for="toggle--switch" class="toggleLabel"></label>
+                    </div>
+                
+                    <!-- Все параметры в одном row -->
+                    <div class="row">
+                        <!-- Параметры статуса и подключенных пользователей -->
+                        <div class="col-3">
+                            <div class="col">
+                                <small class="text-muted"><strong>СОСТОЯНИЕ</strong></small>
+                                <h6 style="text-transform: uppercase;" id="conf_status" class="info_loading"></h6>
+                            </div>
+                            <div class="col">
+                                <small class="text-muted"><strong>ПОДКЛЮЧЁННЫЕ ПОЛЬЗОВАТЕЛИ</strong></small>
+                                <h6 style="text-transform: uppercase;" id="conf_connected_peers" class="info_loading"></h6>
                             </div>
                         </div>
-                        <div class="w-100"></div>
-                        <div class="col">
-                            <small class="text-muted"><strong>STATE</strong></small>
-                            <h6 style="text-transform: uppercase;" id="conf_status" class="info_loading"></h6>
+                        <!-- Параметры публичного ключа, порта и адреса -->
+                        <div class="col-4">
+                            <div class="col">
+                                <small class="text-muted">
+                                    <strong>ПУБЛИЧНЫЙ КЛЮЧ</strong>
+                                    <strong style="margin-left: auto!important; opacity: 0; transition: 0.2s ease-in-out" class="text-primary">СКОПИРОВАТЬ</strong>
+                                </small>
+                                <h6 class="info_loading"><samp class="key" id="conf_public_key"></samp></h6>
+                            </div>
+                            <div class="col">
+                                <small class="text-muted"><strong>ПРОСЛУШИВАЕМЫЙ ПОРТ</strong></small>
+                                <h6 style="text-transform: uppercase;" class="info_loading"><samp id="conf_listen_port"></samp></h6>
+                            </div>
+                            <div class="col">
+                                <small class="text-muted"><strong>IP-адрес</strong></small>
+                                <h6 style="text-transform: uppercase;" class="info_loading"><samp id="conf_address"></samp></h6>
+                            </div>
                         </div>
-                        <div class="col">
-                            <small class="text-muted"><strong>CONNECTED PEERS</strong></small>
-                            <h6 style="text-transform: uppercase;" id="conf_connected_peers" class="info_loading"></h6>
-                        </div>
-                        <div class="col-sm">
-                            <small class="text-muted"><strong>TOTAL DATA USAGE</strong></small>
-                            <h6 style="text-transform: uppercase;" id="conf_total_data_usage" class="info_loading"></h6>
-                        </div>
-                        <div class="col-sm">
-                            <small class="text-muted"><strong>TOTAL RECEIVED</strong></small>
-                            <h6 style="text-transform: uppercase;" id="conf_total_data_received" class="info_loading">
-                            </h6>
-                        </div>
-                        <div class="col-sm">
-                            <small class="text-muted"><strong>TOTAL SENT</strong></small>
-                            <h6 style="text-transform: uppercase;" id="conf_total_data_sent" class="info_loading"></h6>
-                        </div>
-                        <div class="w-100"></div>
-                        <div class="col-sm">
-                            <small class="text-muted">
-                                <strong>PUBLIC KEY</strong>
-                                <strong style="margin-left: auto!important; opacity: 0; transition: 0.2s ease-in-out"
-                                    class="text-primary">CLICK TO COPY</strong>
-                            </small>
-                            <h6 class="info_loading"><samp class="key" id="conf_public_key"></samp></h6>
-                        </div>
-                        <div class="col-sm">
-                            <small class="text-muted"><strong>LISTEN PORT</strong></small>
-                            <h6 style="text-transform: uppercase;" class="info_loading"><samp
-                                    id="conf_listen_port"></samp></h6>
-                        </div>
-                        <div class="col-sm">
-                            <small class="text-muted"><strong>ADDRESS</strong></small>
-                            <h6 style="text-transform: uppercase;" class="info_loading"><samp id="conf_address"></samp>
-                            </h6>
-                        </div>
+                        <!-- Параметры общего использования данных, полученных данных и отправленных данных -->
+                        <div class="col-2">
+                            <div class="col">
+                                <small class="text-muted"><strong>ОБЩИЙ ТРАФИК</strong></small>
+                                <h6 style="text-transform: uppercase;" id="conf_total_data_usage" class="info_loading"></h6>
+                            </div>
+                            <div class="col">
+                                <small class="text-muted"><strong>ВСЕГО ПОЛУЧЕНО</strong></small>
+                                <h6 style="text-transform: uppercase;" id="conf_total_data_received" class="info_loading"></h6>
+                            </div>
+                            <div class="col">
+                                <small class="text-muted"><strong>ВСЕГО ОТПРАВЛЕНО</strong></small>
+                                <h6 style="text-transform: uppercase;" id="conf_total_data_sent" class="info_loading"></h6>
+                            </div>
                     </div>
                 </div>
-                <hr>
-                <div class="row chartContainer">
+                
+                <div class="chartContainer" style="border-bottom: 2px;border-top-style: solid;border-top-width: 2px;border-left-width: 2px;border-left-style: solid;border-right-width: 2px;border-right-style: solid;border-bottom-width: 2px;border-bottom-style: solid;max-width: 1300px;">
                     <div class="col-sm">
                         <div class="chartTitle">
                             <h6>Data Usage / Refresh Interval</h6>
-                            <div class="chartControl" style="margin-left: auto">
-                                <div class="btn-group" role="group">
-                                    <button class="btn btn-outline-primary btn-sm switchUnit" data-unit="GB">GB</button>
-                                    <button class="btn btn-outline-primary btn-sm switchUnit" data-unit="MB">MB</button>
-                                    <button class="btn btn-outline-primary btn-sm switchUnit" data-unit="KB">KB</button>
-                                    <button class="btn btn-outline-primary btn-sm fullScreen"><i
-                                            class="bi bi-fullscreen"></i></button>
-                                </div>
-                            </div>
                         </div>
-                        <div class="chartCanvasContainer" style="width: 85%; height: 300px">
+                        <div class="chartCanvasContainer" style="width: 85%; height: 300px; margin-left: 100px">
                             <canvas id="totalDataUsageChartObj" width="85" height="85"></canvas>
                         </div>
                     </div>
                 </div>
-                <hr>
                 <div class="button-div mb-3">
                     <div class="row">
-                        <div class="col-md">
+                        <div class="col-md d-none">
                             <div class="row">
                                 <div class="col-md">
                                     <div class="form-group">
@@ -119,7 +106,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md">
+                        <div class="col-md d-none">
                             <div class="form-group">
                                 <label><small class="text-muted">Refresh Interval</small></label><br>
                                 <div class="btn-group interval-btn-group" role="group" style="width: 100%">
@@ -142,7 +129,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md">
+                        <div class="col-md d-none">
                             <div class="form-group">
                                 <label><small class="text-muted">Display Mode</small></label><br>
                                 <div class="btn-group display-btn-group" role="group" style="width: 100%">
@@ -156,6 +143,15 @@
                             </div>
                         </div>
                         <div class="btn-manage-group">
+                            <div class="col">
+                                <div class="text-right">
+                                    <small class="text-muted"><strong>ВЫКЛ/ВКЛ</strong></small><br>
+                                    <div id="switch" class="info_loading">
+                                        <input type="checkbox" class="toggle--switch" id="toggle--switch">
+                                        <label for="toggle--switch" class="toggleLabel"></label>
+                                    </div>
+                                </div>
+                            </div>
                             <button type="button" class="btn btn-primary add_btn"><i
                                     class="bi bi-plus-lg"></i></button>
                             <button type="button" class="btn btn-secondary setting_btn"><i
@@ -176,8 +172,8 @@
 
                     </div>
                 </div>
-                <div class="row peer_list"></div>
-                <small id="peer_loading_time" class="text-muted"></small>
+                <div class="row peer_list d-none"></div>
+                <small id="peer_loading_time d-none" class="text-muted"></small>
             </main>
         </div>
     </div>

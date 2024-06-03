@@ -225,6 +225,25 @@ a.nav-link:hover {
     border-color: #7e0202;
 }
 
+.col-3{
+    margin-left: 140;
+    margin-top: 10;
+}
+
+.col-4{
+    margin-left: -15;
+    margin-top: 10;
+}
+
+.info{
+    border-color: rgb(150, 16, 11);
+    border-width: 2px; /* Смените единицы измерения на пиксели */
+    border-radius: 20px; /* Задаём радиус скругления границ */
+    padding: 10px; /* Задаём внутренний отступ */
+    margin-top: 15px; /* Задаём отступ от верхней части страницы */
+    margin-bottom: 7px;
+}
+
 .info h6 {
     line-break: anywhere;
     transition: all 0.4s cubic-bezier(0.96, -0.07, 0.34, 1.01);
@@ -319,11 +338,7 @@ a.nav-link:hover {
     padding: 2rem;
 }
 
-@media (max-width: 992px) {
-    .card-col {
-        margin-bottom: 1rem;
-    }
-}
+
 
 .switch {
     font-size: 2rem;
@@ -351,11 +366,6 @@ a.nav-link:hover {
     margin-right: 1rem
 }
 
-@media (max-width: 768px) {
-    .peer_data_group {
-        text-align: left;
-    }
-}
 
 .index-switch {
     display: flex;
@@ -388,14 +398,7 @@ main {
     margin-bottom: 7rem
 }
 
-@media (max-width: 768px) {
-    .add_btn {
-        bottom: 1.5rem !important;
-    }
-    .peer_list {
-        margin-bottom: 7rem !important;
-    }
-}
+
 
 .btn-manage-group {
     z-index: 99;
@@ -420,6 +423,12 @@ main {
     opacity: 0;
     transition: all 0.3s cubic-bezier(0.58, 0.03, 0.05, 1.28);
 }
+
+.btn-secondary {
+    color: #fff;
+    background-color: #b3b3b3;
+    border-color: transparent;
+  }
 
 .btn-manage-group .setting_btn_menu.show {
     display: block;
@@ -485,7 +494,7 @@ main {
 .setting_btn {
     height: 54px;
     z-index: 99;
-    border-radius: 100px !important;
+    border-radius: 20px !important;
     padding: 0 14px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
     font-size: 1.5rem;
@@ -783,6 +792,20 @@ pre.index-alert {
     margin-right: 0.5rem;
 }
 
+.chartContainer{
+    border-color: rgb(150, 16, 11);
+    border-width: 2px; /* Смените единицы измерения на пиксели */
+    border-radius: 20px; /* Задаём радиус скругления границ */
+    padding: 10px; /* Задаём внутренний отступ */
+    margin-top: 15px; /* Задаём отступ от верхней части страницы */
+    margin-bottom: 7px;
+    margin-left: 100px;
+}
+
+.col{
+    margin-bottom:20;
+}
+
 .chartContainer.fullScreen {
     position: fixed;
     z-index: 9999;
@@ -960,30 +983,13 @@ pre.index-alert {
     width: 25%;
 }
 
-@media (min-width: 1200px){
-    #peerDataUsage .modal-xl {
-        max-width: 95vw;
-    }
-}
 
 .bottom{
     display: none;
 }
 
 
-@media (max-width: 768px){
-    .bottom{
-        display: block;
-    }
 
-    .btn-manage-group{
-        bottom: calc( 3rem + 40px + env(safe-area-inset-bottom, 5px));
-    }
-
-    main{
-        padding-bottom: calc( 3rem + 40px + env(safe-area-inset-bottom, 5px));
-    }
-}
 
 
 .bottomNavContainer{
